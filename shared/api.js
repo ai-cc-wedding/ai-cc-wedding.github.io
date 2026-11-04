@@ -20,9 +20,12 @@
   var LOCAL = location.protocol === 'file:' ||
     /^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname);
   var query = new URLSearchParams(location.search);
-  // A local preview never reaches the real sheet: on localhost only ?api=... connects (a test server), so no test can
-  // write to it. ?api=... is honoured only on localhost, so nobody can redirect real guests' data elsewhere.
-  var API = LOCAL ? String(query.get('api') || '').trim() : String(cfg.apiUrl || '').trim();
+  // Only the published address reaches the real sheet. On localhost only ?api=... connects (a test server), so no preview
+  // or test can write to it, and nobody can redirect real guests' data elsewhere. Any other address (a LAN preview, a
+  // copy of the repo on another host) stays unconnected.
+  var site = '';
+  try { site = new URL(cfg.siteUrl).hostname; } catch (e) { /* no siteUrl: unconnected */ }
+  var API = LOCAL ? String(query.get('api') || '').trim() : location.hostname === site ? String(cfg.apiUrl || '').trim() : '';
   var MODE = API ? 'live' : 'demo';
   // Sample reviews/scores appear only in local previews (or with ?demo), never for real guests.
   var SAMPLES = MODE === 'demo' && (LOCAL || query.has('demo'));
