@@ -1,0 +1,176 @@
+/* devmode.css — AI-CC 2026 (v1-conf) · 개발자 모드. Styles only what js/devmode.js injects (.dm-*);
+   the few rules on v1's own classes are at the end and simply stop applying if those classes change. */
+:root {
+  --dm-page: #0E1529; --dm-ed: #090F1F; --dm-bar: #121A33; --dm-line: #232D52; --dm-num: #566089; --dm-fg: #E6E9F3; --dm-dim: #8C96BB; --dm-amber: var(--amber); --dm-a: #F0E4C6; --dm-a2: #EFE6D0; --dm-warm: #FDFBF8; --dm-warm-2: #F0E4C6;
+  --dm-mono: var(--f-mono, 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Pretendard Variable', monospace);
+  --dm-sans: var(--f-sans, 'Pretendard Variable', Pretendard, -apple-system, system-ui, sans-serif);
+}
+
+/* the </> tab of each section: at least 44 px wide, and wider with its label at very large text (it grows from its
+   anchored side, so the label never sticks out past the screen edge) */
+.dm-tab { position: absolute; z-index: 3; display: grid; place-items: center; min-width: 44px; height: 44px; margin: 0; padding: 0; border: 0; background: none; color: var(--dm-tab-fg, var(--amber-ink)); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.dm-tab > span { display: grid; place-items: center; min-width: 34px; min-height: 24px; padding: 2px 6px; border-radius: 7px; border: 1px solid var(--dm-tab-line, var(--line-2)); background: var(--dm-tab-bg, rgba(var(--paper-rgb), .75)); font: 600 .75rem/1 var(--dm-mono); letter-spacing: -.03em; white-space: nowrap; transition: background-color .2s, color .2s, opacity .2s, border-color .2s; }
+/* quiet by default (a faint </> beside each head, no box): the outline comes back on hover, focus, when pressed and in developer mode */
+html:not(.dm-on) .dm-tab:not([aria-pressed="true"]):not(:hover):not(:focus-visible) > span { border-color: transparent; background: none; color: var(--dm-tab-quiet, var(--text-3)); opacity: .78; } /* ≥ 3:1 on ivory, sand and sun */
+.dm-tab--dark, .dm-tab--glass { --dm-tab-quiet: var(--on-ink-3); }
+.dm-tab:hover > span { background: var(--dm-tab-hover, var(--amber-soft)); }
+.dm-tab[aria-pressed="true"] > span { background: var(--ink); border-color: var(--ink); color: var(--dm-amber); }
+.dm-tab:focus-visible { outline: none; }
+.dm-tab:focus-visible > span { outline: 3px solid var(--amber-ink); outline-offset: 2px; }
+.dm-tab--dark:focus-visible > span, .dm-tab--glass:focus-visible > span { outline-color: var(--dm-amber); }
+/* with developer mode on, the bar, the quick strip, the flipped sections and the exit pill are dark: champagne rings there */
+html.dm-on .topnav__logo:focus-visible, html.dm-on .topnav__scroller a:focus-visible, html.dm-on .topnav__bgm:focus-visible,
+html.dm-on .topnav__all:focus-visible,
+html.dm-on .quick :focus-visible, .dm-flipped :focus-visible, .dm-exit:focus-visible { outline-color: var(--dm-amber); }
+.dm-flipped .dm-tab:focus-visible > span { outline-color: var(--dm-amber); }
+.dm-tab--dark { --dm-tab-fg: var(--amber-soft); --dm-tab-line: rgba(var(--on-ink-rgb), .3); --dm-tab-bg: rgba(var(--ink-deep-rgb), .35); --dm-tab-hover: rgba(var(--amber-rgb), .22); }
+.dm-tab--glass { --dm-tab-fg: var(--dm-warm); --dm-tab-line: rgba(255, 255, 255, .38); --dm-tab-bg: rgba(var(--ink-deep-rgb), .5); --dm-tab-hover: rgba(var(--ink-deep-rgb), .72); }
+.dm-tab--glass > span { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.dm-tab--dark[aria-pressed="true"] > span, .dm-tab--glass[aria-pressed="true"] > span { background: var(--dm-amber); border-color: var(--dm-amber); color: var(--ink); }
+.dm-head { position: relative; }
+.dm-head > .dm-tab { top: -10px; right: -10px; }
+.dm-tab[data-corner="br"] { right: max(6px, env(safe-area-inset-right)); bottom: max(6px, env(safe-area-inset-bottom)); }
+.dm-tab[data-corner="bl"] { left: max(6px, env(safe-area-inset-left)); bottom: max(6px, env(safe-area-inset-bottom)); }
+.dm-tab[data-corner="tr"] { right: max(6px, env(safe-area-inset-right)); top: max(6px, env(safe-area-inset-top)); }
+.dm-tab[data-corner="tl"] { left: max(6px, env(safe-area-inset-left)); top: max(6px, env(safe-area-inset-top)); }
+
+/* a flipped section: its front is hidden, its source shows */
+.dm-flipped > :not(.dm-back):not(.dm-keep) { display: none !important; }
+.dm-back { position: relative; z-index: 1; text-align: left; }
+.dm-corner.dm-flipped { display: flex !important; flex-direction: column; justify-content: center; padding: max(58px, calc(env(safe-area-inset-top) + 50px)) 8px max(58px, calc(env(safe-area-inset-bottom) + 50px)) !important; }
+
+/* the editor window */
+.dm-ed { overflow: hidden; border-radius: 14px; background: var(--dm-ed); color: var(--dm-fg); box-shadow: 0 0 0 1px var(--dm-line), 0 24px 48px -26px rgba(6, 9, 24, .75); }
+.dm-bar { display: flex; align-items: center; gap: 10px; min-height: 54px; padding: 5px 6px 5px 14px; background: var(--dm-bar); border-bottom: 1px solid var(--dm-line); }
+.dm-dots { display: flex; gap: 6px; flex: none; }
+.dm-dots i { width: 10px; height: 10px; border-radius: 50%; background: #E06C75; }
+.dm-dots i + i { background: var(--dm-amber); }
+.dm-dots i + i + i { background: #7FBF8E; }
+.dm-bar { flex-wrap: wrap; } /* very large text: the 청첩장 보기 button takes its own row rather than cutting the file name */
+.dm-file { flex: 1 1 auto; min-width: max-content; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 .8125rem/1.3 var(--dm-mono); color: #DCE1F0; }
+.dm-front { margin-left: auto; }
+.dm-front { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px 0 11px; border-radius: 22px; border: 1px solid #3A4884; background: #222B58; color: var(--dm-warm); font: 700 .875rem/1.2 var(--dm-sans); white-space: nowrap; cursor: pointer; touch-action: manipulation; }
+.dm-front:hover { background: #2B3570; }
+.dm-front svg, .dm-exit svg, .dm-btn svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.dm-body { padding: 14px 0 6px; }
+.dm-code, .dm-out, .dm-foot, .dm-note { letter-spacing: 0; }
+.dm-code { margin: 0; padding: 0 14px 10px 0; list-style: none; counter-reset: dmln; font: .8125rem/1.72 var(--dm-mono); font-variant-ligatures: none; font-synthesis: none; }
+.dm-code li { position: relative; min-height: 1.72em; padding-left: calc(2.9em + var(--i, 0) * 1ch); white-space: pre-wrap; word-break: keep-all; overflow-wrap: anywhere; }
+.dm-code li::before { counter-increment: dmln; content: counter(dmln); position: absolute; left: 0; width: 2.15em; text-align: right; color: var(--dm-num); font-size: .92em; -webkit-user-select: none; user-select: none; }
+.dm-code li.dm-li-run::before { content: '\25B6'; color: var(--dm-amber); font-size: .7em; line-height: 3.9; }
+.dm-code li.dm-li-ctl::before { top: 50%; transform: translateY(-50%); line-height: 1; }
+.dm-code li.dm-li-hl { background: rgba(var(--amber-rgb), .08); }
+.dm-code li.dm-li-hl::after { content: ''; position: absolute; left: 2.5em; top: 2px; bottom: 2px; width: 2px; border-radius: 1px; background: var(--dm-amber); }
+.dm-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 14px; border-top: 1px solid var(--dm-line); font: .75rem/1.4 var(--dm-mono); color: var(--dm-dim); }
+.dm-foot span:last-child { color: var(--dm-a); text-align: right; }
+@media (max-width: 340px) {
+  .dm-dots, .dm-foot span:first-child { display: none; }
+  .dm-bar { padding-left: 12px; gap: 6px; }
+  .dm-front { padding: 0 11px 0 9px; }
+  .dm-foot { justify-content: flex-end; }
+}
+.dm-k { color: var(--dm-amber); } .dm-s { color: #F4ADB9; } .dm-n { color: #9DBBF7; } .dm-f { color: #86D3BE; } .dm-c { color: var(--dm-dim); } .dm-o { color: #AEB6D3; }
+.dm-p { color: #BFC8F2; } .dm-a { color: var(--dm-a); } .dm-b { color: #fff; font-weight: 600; } .dm-ok { color: #93D6A2; font-weight: 600; } .dm-err { color: #F49C9C; font-weight: 600; }
+
+/* runnable lines, photo thumbnails, the "compiled" title page */
+.dm-run { display: block; width: 100%; min-height: 44px; margin: 0; padding: 8px 8px 8px 0; border: 0; border-radius: 8px; background: transparent; color: inherit; font: inherit; text-align: left; text-decoration: none; cursor: pointer; touch-action: manipulation; }
+.dm-run:hover, .dm-run:focus-visible { background: rgba(var(--amber-rgb), .1); }
+.dm-run:focus-visible, .dm-thumb:focus-visible { outline: 2px solid var(--dm-amber); outline-offset: 1px; }
+.dm-thumbs { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0 8px; }
+.dm-thumb { display: grid; place-items: center; width: 56px; height: 56px; margin: 0; padding: 0; overflow: hidden; border: 1px solid var(--dm-line); border-radius: 9px; background: #1A2246; color: var(--dm-a2); font: 600 .8125rem/1 var(--dm-mono); cursor: zoom-in; }
+.dm-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.dm-cal { display: block; width: max-content; max-width: 100%; overflow-x: auto; white-space: pre; scrollbar-width: none; } /* `cal`: 20 mono columns, never wrapped (fitCal zooms it down on tiny screens) */
+.dm-cal::-webkit-scrollbar { display: none; }
+.dm-cal-on { border-radius: 4px; background: var(--dm-amber); color: var(--ink); font-weight: 700; box-shadow: 0 0 0 2px var(--dm-amber); }
+.dm-pdf { display: inline-grid; justify-items: center; gap: 5px; width: 184px; margin: 6px 0 10px; padding: 16px 14px 18px; border-radius: 3px; background: var(--paper); color: var(--text); text-align: center; white-space: normal; box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .8); }
+.dm-pdf small { font: 600 .75rem/1 var(--dm-mono); letter-spacing: .08em; color: var(--amber-ink); }
+.dm-pdf b { font: 400 1rem/1.15 var(--f-display, Georgia, serif); }
+.dm-pdf span { font: 600 .75rem/1.3 var(--dm-sans); }
+.dm-pdf i { display: block; width: 100%; height: 4px; border-radius: 2px; background: var(--line); }
+.dm-pdf i:last-of-type { width: 64%; }
+.dm-pdf em { font: .75rem/1 var(--f-display, Georgia, serif); color: var(--text-3); }
+
+/* rsvp.http: a request you can really send */
+.dm-tok { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; min-height: 44px; margin: 2px 0; padding: 0 8px; border: 1px solid #3A4678; border-radius: 9px; background: transparent; color: #9DBBF7; font: inherit; vertical-align: middle; cursor: pointer; touch-action: manipulation; }
+.dm-tok[aria-checked="true"] { background: rgba(var(--amber-rgb), .18); border-color: var(--dm-amber); color: var(--dm-warm-2); }
+.dm-in { display: inline-block; width: calc(100% - 3ch); max-width: 17em; min-width: 0; min-height: 44px; margin: 2px 0; padding: 4px 7px; vertical-align: middle; border: 1px dashed #52609A; border-radius: 9px; background: #151C3A; color: #F4ADB9; font: 1rem/1.3 var(--dm-mono); }
+.dm-in::placeholder { color: #7D88B0; }
+.dm-in:focus { outline: none; border-style: solid; border-color: var(--dm-amber); box-shadow: 0 0 0 3px rgba(var(--amber-rgb), .2); }
+.dm-send { display: flex; justify-content: flex-end; padding: 2px 14px 0; }
+.dm-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 0; border-radius: 12px; background: var(--dm-amber); color: var(--ink); font: 700 .9375rem/1 var(--dm-mono); cursor: pointer; touch-action: manipulation; }
+.dm-btn svg { width: 13px; height: 13px; fill: currentColor; stroke: none; }
+.dm-btn[disabled] { opacity: .6; cursor: progress; }
+.dm-out { margin: 12px 14px 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--dm-line); background: #090D1F; font: .78125rem/1.65 var(--dm-mono); color: #CDD3E6; white-space: pre-wrap; overflow-wrap: anywhere; word-break: keep-all; }
+.dm-out .dm-run { margin-top: 4px; padding-left: 4px; }
+
+/* the switch (☰ 전체 sheet + footer) */
+.dm-switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 58px; margin: 6px 0 0; padding: 8px 8px 8px 10px; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; color: var(--text-2); font: inherit; text-align: left; cursor: pointer; touch-action: manipulation; }
+.dm-switch__l { display: grid; gap: 1px; font-size: .9375rem; font-weight: 700; line-height: 1.35; }
+.dm-switch__l small { font: 500 .75rem/1.4 var(--dm-mono); color: var(--amber-ink); }
+.dm-track { position: relative; flex: none; width: 46px; height: 28px; border-radius: 14px; background: #B7BFCC; transition: background-color .25s; }
+.dm-track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .3); transition: transform .25s cubic-bezier(.2, .7, .2, 1); }
+.dm-switch[aria-checked="true"] .dm-track { background: var(--dm-amber); }
+.dm-switch[aria-checked="true"] .dm-track::after { transform: translateX(18px); }
+.dm-switch-row { max-width: 320px; margin: 22px auto 0; }
+.dm-switch--dark { margin: 0; border-top-color: rgba(var(--on-ink-rgb), .16); border-radius: 12px; color: #E4E8F3; }
+.dm-switch--dark .dm-switch__l small { color: var(--dm-amber); }
+.dm-switch--dark .dm-track { background: #3A4470; }
+.dm-switch--dark:hover, .dm-switch:focus-visible { background: rgba(var(--amber-rgb), .08); }
+
+/* while the developer mode is on */
+.dm-exit { position: fixed; left: 50%; bottom: max(14px, calc(env(safe-area-inset-bottom) + 8px)); z-index: 45; transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; width: max-content; max-width: calc(100vw - 24px); padding: 8px 20px 8px 15px; border-radius: 26px; border: 1px solid rgba(var(--amber-rgb), .65); background: rgba(var(--ink-deep-rgb), .96); color: var(--dm-warm); font: 700 1rem/1.3 var(--dm-sans); text-align: center; word-break: keep-all; cursor: pointer; touch-action: manipulation; box-shadow: 0 14px 34px -10px rgba(0, 0, 0, .65); }
+.dm-exit svg { color: var(--dm-amber); }
+html.dm-on { scroll-padding-bottom: 86px; } /* a control focused near the bottom never hides behind the exit pill */
+@media (orientation: landscape) and (max-height: 520px) { .dm-exit { min-height: 44px; bottom: 8px; padding: 6px 16px 6px 12px; font-size: .9375rem; } }
+.dm-exit[hidden], .dm-tab[hidden], html.dm-sheet .dm-exit { display: none; }
+html.dm-on body { padding-bottom: 86px; }
+html.dm-on .dm-sec.dm-flipped { background: var(--dm-page) !important; color: var(--dm-fg); }
+html.dm-on .dm-flipped > .dm-keep, html.dm-on .dm-flipped > .dm-keep * { color: #E9ECF4 !important; }
+html.dm-on .dm-flipped > .dm-keep .dm-tab > span { color: var(--ink) !important; background: var(--dm-amber); border-color: var(--dm-amber); }
+.dm-note { display: none; }
+html.dm-on .dm-never { box-shadow: inset 0 0 0 2px rgba(var(--amber-rgb), .6); }
+html.dm-on .dm-never > .dm-note { display: block; position: absolute; top: 18px; left: 16px; right: 16px; margin: 0; text-align: center; font: 500 .75rem/1.5 var(--dm-mono); color: var(--amber-ink); }
+
+/* motion: at most 600 ms, none when reduced */
+.dm-anim > .dm-back { animation: dmIn .32s cubic-bezier(.2, .7, .2, 1) both; }
+.dm-anim > .dm-back .dm-code li { animation: dmLine .24s ease-out both; animation-delay: calc(70ms + min(var(--n, 0), 20) * 12ms); }
+.dm-anim-front > :not(.dm-back):not(.dm-keep) { animation: dmIn .3s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes dmIn { from { opacity: 0; transform: translateY(10px); } }
+@keyframes dmLine { from { opacity: 0; transform: translateX(-6px); } }
+@media (prefers-reduced-motion: reduce) {
+  .dm-anim > .dm-back, .dm-anim > .dm-back .dm-code li, .dm-anim-front > * { animation: none !important; }
+  .dm-track, .dm-track::after, .dm-tab > span { transition: none; }
+}
+
+/* optional touches for v1-conf's own classes */
+html.dm-on .dm-flipped > .dm-keep .eyebrow { color: var(--dm-amber) !important; }
+html.dm-on .dm-flipped > .dm-keep .eyebrow__no { color: var(--dm-a) !important; background: none !important; } /* v1's eyebrow: a mono number + hairline */
+html.dm-on .toast { bottom: max(84px, calc(env(safe-area-inset-bottom) + 76px)); }
+.navsheet .dm-switch { margin-top: 18px; min-height: 54px; padding: 6px 8px 6px 14px; border: 1px dashed var(--line-2); border-radius: 12px; background: var(--ivory); }
+.navsheet .dm-switch__l > span { font-size: .875rem; }
+
+/* ------------------------------------------------------------------ revision 2 · final polish */
+/* the editor's second way back, at its foot (long faces are taller than a phone screen) */
+.dm-front--foot { display: flex; justify-content: center; width: calc(100% - 20px); margin: 0 10px 10px; min-height: 48px; }
+/* the switch's small line is Korean: set it in the sans face, never in letter-spaced mono */
+.dm-switch__l small { font: 500 .75rem/1.4 var(--dm-sans); letter-spacing: 0; }
+/* developer mode turns the whole page into the editor: the sticky bar and the quick strip go dark too */
+html.dm-on .topnav { background: rgba(var(--ink-deep-rgb), .94); border-color: rgba(255, 255, 255, .08); }
+html.dm-on .topnav__scroller a { color: var(--on-ink-2); }
+html.dm-on .topnav__scroller a[aria-current="true"] { color: #fff; box-shadow: inset 0 -2px 0 var(--dm-amber); }
+html.dm-on .topnav__logo { color: #E9ECF4; }
+html.dm-on .topnav__all { background: #1A2246; border-color: rgba(255, 255, 255, .16); color: #E9ECF4; }
+html.dm-on .topnav__bgm { background: #1A2246; border-color: rgba(255, 255, 255, .16); color: #E9ECF4; }
+html.dm-on .topnav__bgm[aria-pressed="true"] { background: var(--dm-amber); border-color: var(--dm-amber); color: var(--ink-deep); }
+/* the cover's ♪ stays through the flip (dm-keep): light on the editor's navy, champagne once the music plays */
+html.dm-on .jc--nurture.dm-flipped > .bgm--cover[aria-pressed="true"],
+html.dm-on .jc--nurture.dm-flipped > .bgm--cover[aria-pressed="true"] * { color: var(--ink-deep) !important; }
+.jc--nurture.dm-flipped .bgm--cover[aria-pressed="true"]::before { border-color: var(--dm-amber); background: var(--dm-amber); }
+.jc--nurture.dm-flipped .bgm--cover:focus-visible { outline-color: var(--dm-amber); }
+html.dm-on .quick { margin: 0; padding: 18px var(--gutter) 16px; background: var(--dm-page); border: 0; }
+html.dm-on .quick__btn { color: #E9ECF4; border-color: rgba(255, 255, 255, .1); }
+html.dm-on .quick__btn.is-done { color: var(--dm-amber); }
+html.dm-on .quick__note { border-color: rgba(255, 255, 255, .1); }
+html.dm-on .quick__note b { color: #fff; }
+html.dm-on .quick__note span { color: var(--on-ink-2); }
+html.dm-on .sec ~ .sec::before { display: none; }

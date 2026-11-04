@@ -1,0 +1,450 @@
+/* nurture — AI-CC 2026 cover, an homage to the classic science-journal cover (v1-conf's cover; loaded after style.css).
+   Every selector is scoped under .jc--nurture.
+   Fonts are v1's own (its subset faces via --f-*, then Pretendard, Noto Serif KR 700, Instrument Serif, JetBrains Mono);
+   the masthead is inline SVG.
+
+   Layers inside .jc__plate (one stacking context):
+     0 photo  ·  1 a graduated filter that deepens the sky behind the masthead  ·  2 masthead (with a soft hole where his
+     hair is, so the word sits behind his head)  ·  4 small print
+   The story block (cover line + facts) sits above the plate with its own scrim.
+
+   cover.js adds (progressive enhancement; the static cover is complete without it):
+     is-photo           the photo has loaded: the hair cut-out and the intro wait for it
+     --jc-tz            how much the system text size inflates fonts (KakaoTalk 글자 크기); English decoration divides by it
+     is-tight/-tighter  large text: decorations step aside, the cover line shrinks
+     is-band (+--jc-cap) a smaller photo, still tucked under the masthead, so her face clears the text block
+     is-low (+--jc-l*)  the photo anchored by her chin and a small masthead in the sky on her side (largest text, small phones)
+     is-squeeze         phone landscape with very large text
+     is-bare            … and when even that is too tall (a 568×320 phone at 160 %), the English cover line steps aside */
+
+.jc--nurture,
+.jc--nurture *,
+.jc--nurture *::before,
+.jc--nurture *::after { box-sizing: border-box; }
+
+.jc--nurture {
+  --jc-ink: var(--ink);
+  --jc-ink-deep: var(--ink-deep);
+  --jc-print: var(--print);   /* the small print over the sky: v1's navy, one step deeper so it holds 4.5:1 on the deepened sky */
+  --jc-amber: var(--amber);
+  --jc-ivory: var(--ivory);
+  /* v1's preloaded subset faces first (--f-*); the CDN families are the fallback (and what the preview uses) */
+  --jc-sans: var(--f-sans, 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif);
+  --jc-serif: var(--f-serif, 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif);
+  --jc-display: var(--f-display, 'Instrument Serif', 'Noto Serif KR', Georgia, serif);
+  --jc-mono: var(--f-mono, 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  --jc-mt: calc(40px + env(safe-area-inset-top, 0px));   /* masthead top */
+  --jc-gs: max(14px, 4.5%);   /* story gutter = the masthead's side margin (% of the column width) */
+  --jc-fade: 150px; /* how far the scrim fades above the story block */
+  --jc-tz: 1;       /* text-zoom factor, measured by cover.js */
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 600px;
+  min-height: clamp(340px, 100vh, 1100px);
+  min-height: clamp(340px, 100svh, 1100px);
+  /* reserve the masthead area: percentages here are the column width, like the masthead itself */
+  padding-top: calc(var(--jc-mt) + (100% - 2 * max(14px, 4.5%)) * .17016 + 12px);
+  color: #fff;
+  background: var(--jc-ink-deep);
+  font-family: var(--jc-sans);
+  letter-spacing: normal; /* the page's +.02em (style.css body) stops here: the cover keeps its own fit */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+/* v1's wedding-day bar (48 px, sticky) sits above the cover on 12/19 from 06:00 to 20:00: the cover gives up its height */
+html.is-dday .jc--nurture {
+  min-height: calc(clamp(340px, 100vh, 1100px) - var(--bar-h, 48px));
+  min-height: calc(clamp(340px, 100svh, 1100px) - var(--bar-h, 48px));
+}
+.jc--nurture p,
+.jc--nurture h1 { margin: 0; }
+.jc--nurture img,
+.jc--nurture svg { display: block; max-width: none; }
+.jc--nurture [hidden] { display: none !important; }
+
+/* ------------------------------------------------------------------ plate: photo + masthead */
+.jc--nurture .jc__plate {
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 0;
+  overflow: hidden;
+  container-type: size;
+  /* sky-coloured until the photo arrives (no navy flash behind the white masthead) */
+  background: linear-gradient(180deg, #5F98DC 0%, #86BDF6 34%, #A2CDF8 46%, #20263E 62%, var(--ink-deep) 100%);
+}
+.jc--nurture .jc__canvas { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+.jc--nurture .jc__photo {
+  position: absolute; top: 0; left: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 47% 34%;
+}
+/* a graduated filter over the top of the sky: the white masthead gains contrast, the blue turns deeper and richer */
+.jc--nurture .jc__plate::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; z-index: 1;
+  height: 22%;
+  height: calc(var(--jc-base, 110px) + 40px);
+  background: linear-gradient(180deg, rgba(12, 38, 104, .28) 0, rgba(12, 38, 104, .36) 34%, rgba(12, 38, 104, .3) 62%, rgba(12, 38, 104, 0) 100%);
+  pointer-events: none;
+}
+
+/* Geometry: the photo is placed so the crown of his head always lands just inside the masthead's
+   x-height band, whatever the screen size. (Image: h11, 1365×2048; crown at 24.27 % of its height.) */
+@supports (width: 1cqw) and (width: max(1px, 2px)) {
+  .jc--nurture .jc__plate > *,
+  .jc--nurture .jc__plate::after {
+    --jc-g: max(14px, 4.5cqw);                               /* masthead side margin */
+    --jc-mw: calc(100cqw - 2 * var(--jc-g));                /* masthead width */
+    --jc-mh: calc(var(--jc-mw) * .17016);                   /* masthead height (SVG aspect) */
+    --jc-base: calc(var(--jc-mt) + var(--jc-mh) * .9675);   /* baseline */
+    --jc-xh: calc(var(--jc-mh) * .7955);                    /* x-height */
+    --jc-crown: calc(var(--jc-base) - var(--jc-xh) * .42);   /* his crown rises ~2/5 into the x-height */
+    /* tall enough to reach the bottom, wide enough to cover; with large text cover.js caps it (--jc-cap) so her face
+       clears the text block (the opaque text panel then hides the photo's lower edge) */
+    --jc-hb: max(calc(100cqw / .6665), min(calc((100cqh - var(--jc-crown)) / .7573), var(--jc-cap, 100000px)));
+  }
+  .jc--nurture .jc__canvas {
+    right: auto; bottom: auto;
+    height: var(--jc-hb);
+    width: calc(var(--jc-hb) * .6665);
+    top: calc(var(--jc-crown) - var(--jc-hb) * .2427);
+    left: calc((100cqw - var(--jc-hb) * .6665) * .455);
+  }
+  .jc--nurture .jc__photo { object-fit: fill; }
+  /* Depth: once the photo is in, the masthead gets a soft hole exactly where his hair is, so the word sits behind his
+     head. The matte (assets/cover/h11-hair-mask.webp, alpha only) is the 350×149 region of the lg photo at (643, 491); the
+     photo itself is never touched. Before the photo arrives (or without support) the masthead is simply whole. */
+  .jc--nurture.is-photo .jc__mast {
+    --jc-cw: calc(var(--jc-hb) * .6665);
+    -webkit-mask-image: url(../assets/cover/h11-hair-mask.webp), linear-gradient(#000, #000);
+            mask-image: url(../assets/cover/h11-hair-mask.webp), linear-gradient(#000, #000);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: calc((100cqw - var(--jc-cw)) * .455 + var(--jc-cw) * .47106 - var(--jc-g)) calc(var(--jc-crown) - var(--jc-hb) * .00295 - var(--jc-mt)), 0 0;
+            mask-position: calc((100cqw - var(--jc-cw)) * .455 + var(--jc-cw) * .47106 - var(--jc-g)) calc(var(--jc-crown) - var(--jc-hb) * .00295 - var(--jc-mt)), 0 0;
+    -webkit-mask-size: calc(var(--jc-cw) * .25641) calc(var(--jc-hb) * .072754), 100% 100%;
+            mask-size: calc(var(--jc-cw) * .25641) calc(var(--jc-hb) * .072754), 100% 100%;
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+}
+
+.jc--nurture .jc__mast {
+  position: absolute; z-index: 2;
+  left: var(--jc-g, 16px);
+  top: var(--jc-mt);
+  width: var(--jc-mw, calc(100% - 32px));
+  height: auto;
+  fill: #fff;
+  overflow: hidden;
+}
+
+/* small print over the sky: navy ink, like a printed cover. Decorative English never grows with the system text size
+   (the Korean facts do): sizes are divided by --jc-tz. */
+.jc--nurture .jc__tagline,
+.jc--nurture .jc__issue {
+  position: absolute; z-index: 4;
+  left: var(--jc-g, 16px);
+  color: var(--jc-print);
+  white-space: nowrap;
+}
+.jc--nurture .jc__tagline {
+  top: calc(var(--jc-mt) - 24px);
+  font: 700 12px/1.3334 var(--jc-sans);  /* unitless: px line-heights grow with text-size-adjust */
+  font-size: calc(12px / var(--jc-tz, 1));
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.jc--nurture .jc__issue {
+  top: calc(var(--jc-base, calc(var(--jc-mt) + min(100vw, 480px) * .165)) + 9px);
+  display: flex; flex-direction: column;
+  font: 600 12px/1.4167 var(--jc-mono);
+  font-size: calc(12px / var(--jc-tz, 1));
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+/* VOL. 1 · NO. 1219 / [19 DECEMBER 2026 on tall covers] / AI-CC [2026] SPECIAL ISSUE — the link to the conference it
+   opens into. Widths follow the sky left of his head. */
+.jc--nurture .jc__date,
+.jc--nurture .jc__si-y { display: none; }
+@container (min-width: 420px) {
+  .jc--nurture .jc__si-y { display: inline; }
+}
+@container (max-width: 319px) {           /* Fold, phone landscape: AI-CC 2026 */
+  .jc--nurture .jc__si-x { display: none; }
+  .jc--nurture .jc__si-y { display: inline; }
+}
+@container (max-width: 239px) {
+  .jc--nurture .jc__vol-x { display: none; }
+}
+@container ((min-height: 838px) and (max-width: 400px)) or (min-height: 870px) {   /* tall covers: the full issue line */
+  .jc--nurture .jc__date { display: block; }
+}
+
+/* ------------------------------------------------------------------ background music (♪, app.js; style.css has the icon)
+   Top right, level with the tagline and in its print navy (filled once the music plays). It lines up with the masthead's
+   right edge where the tagline leaves room, else with the screen edge. html.has-bgm (set in the head) makes room on the
+   narrowest covers: the tagline's tighter tracking up to 344 px (not 340), no "The" below 329 px (not 300) and 11 px
+   type below 296 px, so it keeps at least 6 px from the disc at every width. */
+.jc--nurture .bgm--cover {
+  position: absolute; z-index: 6;
+  top: calc(var(--jc-mt) - 38px); right: calc(var(--jc-gs) - 7px);
+  color: var(--jc-print);
+}
+.jc--nurture .bgm--cover::before {
+  content: ''; position: absolute; top: 7px; right: 7px; bottom: 7px; left: 7px; border-radius: 50%;
+  border: 1.5px solid currentColor; background: rgba(255, 255, 255, .22);
+}
+.jc--nurture .bgm--cover[aria-pressed="true"] { color: var(--jc-amber); }
+.jc--nurture .bgm--cover[aria-pressed="true"]::before { border-color: var(--jc-print); background: var(--jc-print); }
+.jc--nurture .bgm--cover:focus-visible { outline-color: var(--jc-print); outline-offset: -5px; }
+@media (max-width: 359px) { .jc--nurture .bgm--cover { right: env(safe-area-inset-right, 0px); } }
+@media (max-width: 344px) { html.has-bgm .jc--nurture .jc__tagline { letter-spacing: .08em; } }
+@media (max-width: 328px) { html.has-bgm .jc--nurture .jc__tagline-x { display: none; } }
+@media (max-width: 295px) { html.has-bgm .jc--nurture .jc__tagline { font-size: calc(11px / var(--jc-tz, 1)); } }
+/* short screens: the button box starts above the cover, so the ring moves inside the disc's margin */
+@media (max-height: 600px) { .jc--nurture .bgm--cover:focus-visible { outline-width: 2px; outline-offset: -6px; } }
+/* is-low (the largest text on short screens, the wedding day's bar above): his jacket can sit behind the corner */
+.jc--nurture.is-low:not(.dm-flipped) .bgm--cover:not([aria-pressed="true"])::before { background: rgba(255, 255, 255, .55); }
+.jc--nurture.is-low:not(.dm-flipped) .bgm--cover:focus-visible { outline-color: #fff; }
+/* phones in landscape: the top right of the navy story column, in its colours; the COVER STORY rule stops short of it.
+   The 480 px column never reaches a landscape phone's edge, so no safe-area inset here. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .jc--nurture .bgm--cover {
+    top: calc(env(safe-area-inset-top, 0px) + 2px); right: calc(var(--jc-gs) - 7px);
+    color: var(--on-ink);
+  }
+  .jc--nurture .bgm--cover::before { background: rgba(255, 255, 255, .06); }
+  .jc--nurture .bgm--cover[aria-pressed="true"] { color: var(--jc-ink-deep); }
+  .jc--nurture .bgm--cover[aria-pressed="true"]::before { border-color: var(--jc-amber); background: var(--jc-amber); }
+  .jc--nurture .bgm--cover:focus-visible { outline-color: var(--jc-amber); }
+  html.has-bgm .jc--nurture .jc__kicker { margin-right: 36px; }
+  /* from 20:00 the kicker is the PUBLISHED stamp: without the rule (and its gap) it keeps one line beside the disc */
+  html.has-bgm .jc--nurture[data-phase="after"] .jc__kicker::after { display: none; }
+}
+
+/* ------------------------------------------------------------------ story: cover line + facts */
+.jc--nurture .jc__story {
+  position: relative; z-index: 5;
+  padding: 0 var(--jc-gs) calc(10px + env(safe-area-inset-bottom));
+}
+.jc--nurture .jc__story::before { /* scrim that grows with the block (large text) */
+  content: ''; position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; top: calc(-1 * var(--jc-fade));
+  /* anchored in px from the block's top edge, so the first line always sits on >= 82 % navy */
+  background: linear-gradient(0deg,
+    rgba(var(--ink-deep-rgb), .96) 0, rgba(var(--ink-deep-rgb), .9) calc(100% - var(--jc-fade) - 60px), rgba(var(--ink-deep-rgb), .83) calc(100% - var(--jc-fade)),
+    rgba(var(--ink-deep-rgb), .56) calc(100% - var(--jc-fade) * .64), rgba(var(--ink-deep-rgb), .2) calc(100% - var(--jc-fade) * .27), rgba(var(--ink-deep-rgb), 0) 100%);
+  pointer-events: none;
+}
+
+.jc--nurture .jc__kicker {
+  display: flex; align-items: center; gap: 10px;
+  font: 600 12px/1.2 var(--jc-mono);
+  font-size: calc(12px / var(--jc-tz, 1));
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--jc-amber);
+}
+.jc--nurture .jc__kicker::after { content: ''; flex: 1; height: 1px; background: rgba(var(--amber-rgb), .55); }
+
+.jc--nurture .jc__line {
+  margin-top: 10px;
+  font-family: var(--jc-display); font-weight: 400;
+  font-size: calc(clamp(34px, 10.6vw, 47px) / var(--jc-tz, 1));
+  line-height: .98;
+  letter-spacing: -.004em;
+  color: #fff;
+}
+.jc--nurture .jc__line em { display: block; font-style: italic; color: var(--jc-amber); }
+.jc--nurture .jc__l2 { display: inline-block; } /* when the line wraps, it wraps after "Attendance" */
+
+.jc--nurture .jc__h1 {
+  margin-top: 14px;
+  font-family: var(--jc-serif); font-weight: 700;
+  font-size: clamp(1.625rem, 7.7vw, 2rem);
+  line-height: 1.24;
+  letter-spacing: -.01em;
+}
+.jc--nurture .jc__names,
+.jc--nurture .jc__verb { white-space: nowrap; }
+.jc--nurture .jc__heart { color: var(--jc-amber); font-family: var(--jc-sans); font-size: .68em; vertical-align: .14em; margin: 0 .04em; }
+
+.jc--nurture .jc__facts {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, .34);
+}
+.jc--nurture .jc__when { font-size: clamp(1.125rem, 4.9vw, 1.25rem); font-weight: 600; line-height: 1.42; }
+.jc--nurture .jc__where { margin-top: 2px; font-size: 1.0625rem; font-weight: 500; line-height: 1.45; }
+.jc--nurture .jc__former { display: block; font-size: .9412em; color: rgba(255, 255, 255, .9); }
+
+/* footer row: Open Access · the cue · barcode */
+.jc--nurture .jc__foot {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px;
+  margin-top: 10px;
+}
+.jc--nurture .jc__oa {
+  grid-column: 1; justify-self: start;
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 12px/1 var(--jc-mono); font-size: calc(12px / var(--jc-tz, 1));
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--jc-amber); white-space: nowrap;
+}
+.jc--nurture .jc__oa svg { width: 11px; height: 14px; flex: none; }
+.jc--nurture .jc__cue {
+  grid-column: 2; justify-self: center;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 10px;
+  color: rgba(255, 255, 255, .9); font-size: .9375rem; font-weight: 600; text-decoration: none;
+  white-space: nowrap; touch-action: manipulation;
+}
+.jc--nurture .jc__arrow { display: inline-block; color: var(--jc-amber); animation: jcCue 1.9s ease-in-out infinite; }
+.jc--nurture .jc__cue:focus-visible { outline: 3px solid var(--jc-amber); outline-offset: 2px; border-radius: 8px; }
+.jc--nurture .jc__end { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 2px; }
+.jc--nurture .jc__barcode { width: 64px; height: auto; border-radius: 1px; }
+@keyframes jcCue { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+/* ------------------------------------------------------------------ phases (set by cover.js on v1's clock) */
+/* morning (06:00): kicker OUT TODAY. evening (the ceremony, 18:00): NOW IN SESSION. The date and the cue stay as they are:
+   v1's day bar above the cover carries the day's news and 오시는 길.
+   after (20:00): the kicker becomes v1's rubber stamp, PUBLISHED 2026.12.19 — in the flow, never over a face. */
+.jc--nurture[data-phase="after"] .jc__kicker span {
+  padding: 3px 7px 2px 8px;
+  border: 1.5px solid currentColor; border-radius: 4px;
+  box-shadow: 0 0 0 2px rgba(var(--ink-deep-rgb), .6), 0 0 0 3px rgba(var(--amber-rgb), .4);
+  transform: rotate(-3deg);
+}
+
+/* ------------------------------------------------------------------ first open: the masthead rises behind him (once per session) */
+/* The letters wait (paused, out of sight) until the photo is in, so they rise behind his head and not over an empty sky;
+   the inline script drops the intro if the photo is not there within 0.7 s. */
+.jc--nurture.jc--intro .jc__mast path {
+  transform-box: fill-box;
+  animation: jcRise .8s cubic-bezier(.16, .84, .24, 1) both paused;
+}
+.jc--nurture.jc--intro.is-photo .jc__mast path { animation-play-state: running; }
+.jc--nurture.jc--intro .jc__mast path:nth-of-type(2) { animation-delay: .06s; }
+.jc--nurture.jc--intro .jc__mast path:nth-of-type(3) { animation-delay: .12s; }
+.jc--nurture.jc--intro .jc__mast path:nth-of-type(4) { animation-delay: .18s; }
+.jc--nurture.jc--intro .jc__mast path:nth-of-type(5) { animation-delay: .24s; }
+.jc--nurture.jc--intro .jc__mast path:nth-of-type(6) { animation-delay: .30s; }
+.jc--nurture.jc--intro .jc__mast path:nth-of-type(7) { animation-delay: .36s; }
+@keyframes jcRise { from { transform: translateY(108%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .jc--nurture.jc--intro .jc__mast path { animation: none; }
+  .jc--nurture .jc__arrow { animation: none; }
+}
+
+/* ------------------------------------------------------------------ narrow and short screens */
+@media (max-width: 340px) {
+  .jc--nurture .jc__tagline { letter-spacing: .08em; }
+  .jc--nurture .jc__issue { letter-spacing: 0; }
+  .jc--nurture .jc__oa { letter-spacing: .04em; }
+}
+@media (max-width: 300px) {
+  .jc--nurture .jc__tagline-x { display: none; }
+  .jc--nurture .jc__oa { display: none; }
+}
+/* short screens (SE, KakaoTalk with toolbars): decorations step aside, the facts never do */
+@media (max-height: 700px) {
+  .jc--nurture .jc__kicker { display: none; }
+  .jc--nurture .jc__line { margin-top: 0; font-size: calc(clamp(32px, 10vw, 40px) / var(--jc-tz, 1)); }
+  .jc--nurture .jc__h1 { margin-top: 10px; }
+  .jc--nurture .jc__facts { margin-top: 10px; padding-top: 10px; }
+  .jc--nurture .jc__foot { margin-top: 4px; }
+}
+@media (max-height: 600px) {
+  .jc--nurture { --jc-mt: calc(34px + env(safe-area-inset-top, 0px)); }
+  .jc--nurture .jc__line { font-size: calc(32px / var(--jc-tz, 1)); }
+  .jc--nurture .jc__line em { display: inline; }
+  .jc--nurture .jc__h1 { font-size: 1.625rem; }
+}
+
+/* set by cover.js when large system text would push the facts over the faces or off the first screen */
+.jc--nurture.is-tight .jc__kicker,
+.jc--nurture.is-tight .jc__oa,
+.jc--nurture.is-tight .jc__barcode,
+.jc--nurture.is-tighter .jc__issue,
+.jc--nurture.is-tighter .jc__tagline { display: none; }
+.jc--nurture.is-tight { --jc-fade: 96px; }
+.jc--nurture.is-tighter { --jc-fade: 44px; }
+.jc--nurture.is-tight .jc__line { margin-top: 0; }
+.jc--nurture.is-tighter .jc__line { font-size: calc(min(30px, 8.4vw) / var(--jc-tz, 1)); }
+.jc--nurture.is-tighter .jc__line em { display: inline; }
+/* is-band: the text keeps an opaque panel with a short fade, so the photo above it stays clear */
+.jc--nurture.is-band { --jc-fade: 30px; }
+.jc--nurture.is-band .jc__story::before {
+  background: linear-gradient(0deg, rgba(var(--ink-deep-rgb), .97) 0, rgba(var(--ink-deep-rgb), .97) calc(100% - var(--jc-fade)),
+    rgba(var(--ink-deep-rgb), .62) calc(100% - var(--jc-fade) * .5), rgba(var(--ink-deep-rgb), 0) 100%);
+}
+/* is-low: the photo is anchored by her chin (values from cover.js); the masthead moves into the sky on her side */
+.jc--nurture.is-low { padding-top: calc(var(--jc-lmt, 12px) + 46% * .17016 + 12px); }
+.jc--nurture.is-low .jc__canvas {
+  top: var(--jc-lt, 0px); left: var(--jc-ll, 0px);
+  height: var(--jc-lh, 150%); width: calc(var(--jc-lh, 150%) * .6665);
+}
+.jc--nurture.is-low .jc__mast {
+  -webkit-mask-image: none; mask-image: none;
+  top: var(--jc-lmt, 12px); width: var(--jc-lmw, 46%);
+}
+.jc--nurture.is-low .jc__plate::after { height: calc(var(--jc-lmt, 12px) + var(--jc-lmw, 150px) * .17016 + 20px); }
+.jc--nurture.is-low .jc__line { font-size: calc(min(28px, 8vw) / var(--jc-tz, 1)); }
+
+/* ------------------------------------------------------------------ phones in landscape: the issue page (cover left, story right) */
+@media (orientation: landscape) and (max-height: 520px) {
+  .jc--nurture {
+    --jc-mt: calc(14px + env(safe-area-inset-top, 0px));
+    --jc-gs: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+    align-items: stretch;
+    min-height: clamp(300px, 100vh, 520px);
+    min-height: clamp(300px, 100svh, 520px);
+    padding-top: 0;
+  }
+  html.is-dday .jc--nurture {
+    min-height: calc(clamp(300px, 100vh, 520px) - var(--bar-h, 48px));
+    min-height: calc(clamp(300px, 100svh, 520px) - var(--bar-h, 48px));
+  }
+  .jc--nurture .jc__plate { position: relative; top: auto; right: auto; bottom: auto; left: auto; grid-column: 1; grid-row: 1; }
+  .jc--nurture .jc__tagline { display: none; }
+  .jc--nurture .jc__issue { top: calc(var(--jc-base, 44px) + 6px); }   /* NO. 1219 / AI-CC 2026 under the masthead */
+  .jc--nurture .jc__story {
+    position: static;
+    grid-column: 2; grid-row: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 12px var(--jc-gs) calc(8px + env(safe-area-inset-bottom));
+    background: var(--jc-ink-deep);
+  }
+  .jc--nurture .jc__story::before { display: none; }
+  .jc--nurture .jc__kicker { display: flex; }
+  .jc--nurture .jc__line { margin-top: 6px; font-size: calc(30px / var(--jc-tz, 1)); }
+  .jc--nurture .jc__line em { display: block; }
+  .jc--nurture .jc__h1 { margin-top: 8px; font-size: 1.5rem; }
+  .jc--nurture .jc__facts { margin-top: 8px; padding-top: 8px; }
+  .jc--nurture .jc__when { font-size: 1.0625rem; }
+  .jc--nurture .jc__where { font-size: 1rem; }
+  .jc--nurture .jc__foot { position: static; grid-template-columns: auto 1fr auto; margin-top: 2px; }
+  .jc--nurture .jc__cue { grid-column: 1; justify-self: start; padding-left: 0; }
+  .jc--nurture .jc__oa { display: none; }
+  .jc--nurture .jc__end { position: static; }
+  /* the barcode belongs on the cover: bottom-left of the photo, like a newsstand copy */
+  .jc--nurture .jc__barcode,
+  .jc--nurture.is-tight .jc__barcode { display: block; position: absolute; z-index: 6; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); width: 50px; }
+  /* very large text in landscape: one-line cover line, no cue; the facts keep the column, the cover keeps its furniture */
+  .jc--nurture.is-tighter .jc__issue { display: flex; }
+  .jc--nurture.is-tighter .jc__line { font-size: calc(22px / var(--jc-tz, 1)); }
+  .jc--nurture.is-tighter .jc__line em { display: inline; }
+  .jc--nurture.is-tighter .jc__cue { display: none; }
+  .jc--nurture.is-tighter .jc__foot { margin-top: 0; }
+  .jc--nurture.is-tighter .jc__facts { margin-top: 6px; padding-top: 6px; }
+  /* the largest text on a short landscape screen (or under v1's wedding-day bar): tighter Korean, still >= 17 / 15 px */
+  .jc--nurture.is-squeeze .jc__story { padding-top: 4px; padding-bottom: calc(2px + env(safe-area-inset-bottom)); }
+  .jc--nurture.is-squeeze .jc__line { margin-top: 0; font-size: calc(18px / var(--jc-tz, 1)); }
+  .jc--nurture.is-squeeze .jc__h1 { margin-top: 4px; font-size: max(20px, 1.25rem); line-height: 1.16; }
+  .jc--nurture.is-squeeze .jc__facts { margin-top: 4px; padding-top: 4px; }
+  .jc--nurture.is-squeeze .jc__when { font-size: max(17px, 1rem); line-height: 1.32; }
+  .jc--nurture.is-squeeze .jc__where { margin-top: 0; font-size: max(16px, .9375rem); line-height: 1.32; }   /* (구 …) stays >= 15 px */
+  .jc--nurture.is-bare .jc__line { display: none; }
+}

@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ai-cc-wedding//invitation//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:20261219T090000Z-jinheon-soyeong@ai-cc-wedding.github.io
+DTSTAMP:20261028T000000Z
+DTSTART:20261219T090000Z
+DTEND:20261219T110000Z
+SUMMARY:백진헌 ♥ 정소영 결혼식
+LOCATION:더그랜드롯데 서울 (구 롯데호텔 서울) 3층 사파이
+ 어볼룸\, 서울특별시 중구 소공동 1
+DESCRIPTION:2026년 12월 19일 토요일 오후 6시\nhttps://ai-cc-weddin
+ g.github.io/
+URL:https://ai-cc-wedding.github.io/
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:진헌 ♥ 소영 결혼식
+END:VALARM
+END:VEVENT
+END:VCALENDAR

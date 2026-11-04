@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>진헌 ♥ 소영 결혼합니다 · AI-CC 2026</title>
+<meta name="description" content="2026년 12월 19일(토) 오후 6시 · 더그랜드롯데 서울 (구 롯데호텔 서울) 3층 사파이어볼룸. AI-CC 2026 — The First (and only) Conference on AI Campus Couples.">
+<meta name="theme-color" content="#18213B">
+<!-- "only light": browsers that force pages dark (Android dark theme for sites, in-app WebViews) leave this one alone -->
+<meta name="color-scheme" content="only light">
+<meta name="format-detection" content="telephone=no">
+<!-- shared by link only: this page stays out of search results -->
+<meta name="robots" content="noindex">
+<!-- Open Graph must be static HTML for the KakaoTalk / SNS scrapers (they do not run JS). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AI-CC 2026">
+<meta property="og:title" content="💌 진헌 ♥ 소영 결혼합니다">
+<meta property="og:description" content="2026년 12월 19일(토) 오후 6시 · 더그랜드롯데 서울 (구 롯데호텔 서울)">
+<meta property="og:image" content="https://ai-cc-wedding.github.io/assets/og/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="600">
+<meta property="og:url" content="https://ai-cc-wedding.github.io/">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318213B'/%3E%3Cpath d='M16.4 22.6 8.2 32l8.2 9.4M48.2 22.6 56.4 32l-8.2 9.4M38.4 42.4l5.2-20.8' fill='none' stroke='%23F7F8FB' stroke-width='4.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M26.6 39.22C23.79 36.72 18.8 33.84 18.8 29.86C18.8 26.9 20.91 25.18 22.86 25.18C24.88 25.18 26.21 26.51 26.6 27.91C26.99 26.51 28.32 25.18 30.34 25.18C32.29 25.18 34.4 26.9 34.4 29.86C34.4 33.84 29.41 36.72 26.6 39.22Z' fill='%23E2CFA4'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- First screen: the cover photo, and the 3 KB hair matte that tucks the masthead behind his head (CSS masks load in CORS mode). -->
+<link rel="preload" as="image" href="assets/photos/h11-md.jpg" fetchpriority="high"
+      imagesrcset="assets/photos/h11-sm.jpg 427w, assets/photos/h11-md.jpg 853w, assets/photos/h11-lg.jpg 1365w"
+      imagesizes="(orientation: landscape) and (max-height: 520px) 320px, (min-width: 520px) 820px, 172vw">
+<link rel="preload" as="image" href="assets/cover/h11-hair-mask.webp" type="image/webp" crossorigin>
+<!-- Korean text: small self-hosted subsets of the two faces (see css/style.css), fetched right away -->
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/aicc-serif-700.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/aicc-sans.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/aicc-serif-500.woff2" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!-- The full families, only for characters outside the subsets (guests' names and messages): never render-blocking -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-kr@5.3.0/500.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-kr@5.3.0/700.css" media="print" onload="this.media='all'">
+<noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-kr@5.3.0/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-kr@5.3.0/700.css">
+</noscript>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cover.css">
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/devmode.css">
+<script>(function (r) {
+  r.className += ' js';
+  if (window.Audio) r.className += ' has-bgm'; // the cover makes room for the ♪ button from the first paint (cover.css)
+  /* The couple's names in a random order, drawn once per visit (sessionStorage, so a reload keeps it): html.ord-bf puts
+     the bride first. The accounts and the parents' lines keep their fixed order. aiccOrder(el) runs right after each pair
+     in the markup, so the first paint is already in order. Test browsers (navigator.webdriver) get the groom first unless
+     the test stores 'aicc:ord' itself. */
+  var o = '';
+  try { o = sessionStorage.getItem('aicc:ord') || ''; } catch (e) {}
+  if (o !== 'bf' && o !== 'gb') {
+    o = navigator.webdriver ? 'gb' : Math.random() < .5 ? 'bf' : 'gb';
+    try { sessionStorage.setItem('aicc:ord', o); } catch (e) {}
+  }
+  window.aiccOrder = function (el) {
+    if (o !== 'bf' || !el) return;
+    var g = el.querySelector('#spkGroom'), b = el.querySelector('#spkBride');
+    if (g && b) { g.parentNode.insertBefore(b, g); return; } // the two speaker cards
+    g = el.querySelector('[data-w^="groom."]'); b = el.querySelector('[data-w^="bride."]');
+    if (!g || !b) return;
+    var k = g.getAttribute('data-w'), t = g.textContent; // a pair of names: swap what each span shows and is filled with
+    g.setAttribute('data-w', b.getAttribute('data-w')); g.textContent = b.textContent;
+    b.setAttribute('data-w', k); b.textContent = t;
+  };
+  if (o === 'bf') { r.className += ' ord-bf'; document.title = document.title.replace(/^(\S+) ♥ (\S+)/, '$2 ♥ $1'); }
+})(document.documentElement);</script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+
+<!-- Desktop-only side panels (photo poster with a "open on your phone" QR + program index). Hidden below 1100px. -->
+<aside class="poster" aria-hidden="true">
+  <div class="poster__inner">
+    <div class="poster__photo" id="posterPhoto"></div>
+    <p class="poster__kicker">AI-CC <span data-w="date.year">2026</span> ♡ Seoul ♡ <span data-w="dec19">DEC&nbsp;19</span></p>
+    <p class="poster__sub">The First <em>(and only)</em><br>Conference on AI Campus&nbsp;Couples</p>
+    <div class="poster__qr" id="posterQr" hidden>
+      <div class="poster__qr-code" id="posterQrCode"></div>
+      <p><b>휴대폰으로 보기</b><span>카메라로 비추면 청첩장이 열려요</span></p>
+    </div>
+  </div>
+</aside>
+<nav class="program" aria-label="프로그램 바로가기">
+  <div class="program__inner">
+    <p class="program__title">Program</p>
+    <ol class="program__list">
+      <li><a href="#cfp"><span>01</span>초대의 글<em>Call for Participation</em></a></li>
+      <li><a href="#dates"><span>02</span>예식 일시<em>Important Dates</em></a></li>
+      <li><a href="#venue"><span>03</span>오시는 길<em>Venue &amp; Travel</em></a></li>
+      <li><a href="#gift"><span>04</span>마음 전하실 곳<em>With Gratitude</em></a></li>
+      <li><a href="#rsvp"><span>05</span>참석 여부<em>Registration</em></a></li>
+      <li><a href="#gallery"><span>06</span>갤러리<em>Past Venues</em></a></li>
+      <li><a href="#reviews"><span>07</span>축하 리뷰<em>Official Reviews</em></a></li>
+      <li><a href="#challenge"><span>08</span>미니 게임<em>Challenge Track</em></a></li>
+    </ol>
+    <p class="program__dday"><span class="mono" data-dday-label>D-</span> <span data-dday-ko></span></p>
+  </div>
+</nav>
+
+<div class="app" id="app">
+
+  <!-- ============ WEDDING-DAY BAR (12/19 from 06:00 KST until the ceremony; shown by app.js) ============ -->
+  <a class="daybar" id="dayBar" href="#venue" hidden>
+    <span class="daybar__info"><span class="nb" id="dayBarWhen">오늘 오후 6시</span><span class="daybar__dot" aria-hidden="true"> · </span><span class="nb" id="dayBarHall">3층 사파이어볼룸</span></span>
+    <span class="daybar__go">오시는 길&nbsp;<span aria-hidden="true">›</span></span>
+  </a>
+
+  <!-- ============ COVER: nurture, a science-journal cover (css/cover.css, js/cover.js; facts static) ============ -->
+  <header class="jc jc--nurture" id="top" data-phase="before">
+    <script>(function (h) { try { if (!sessionStorage.getItem('aicc:cover:nurture') && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { h.classList.add('jc--intro'); setTimeout(function () { if (!h.classList.contains('is-photo')) h.classList.remove('jc--intro'); }, 700); } } catch (e) {} })(document.currentScript.parentNode);</script>
+    <!-- background music on/off (app.js shows it; the bar has the same button once the cover and the quick row have gone) -->
+    <button class="bgm bgm--cover dm-keep" type="button" data-bgm aria-pressed="false" aria-label="배경음악" hidden><svg class="bgm__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="bgm__off"><path d="M9 17.5V6.5l10-2.5v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/><path d="m3.5 3.5 17 17"/></g><g class="bgm__on"><path class="bgm__bar" d="M5 9.5v5"/><path class="bgm__bar" d="M9.67 6v12"/><path class="bgm__bar" d="M14.33 8v8"/><path class="bgm__bar" d="M19 10.5v3"/></g></svg></button>
+    <div class="jc__plate">
+      <div class="jc__canvas">
+        <img class="jc__photo" src="assets/photos/h11-md.jpg"
+             srcset="assets/photos/h11-sm.jpg 427w, assets/photos/h11-md.jpg 853w, assets/photos/h11-lg.jpg 1365w"
+             sizes="(orientation: landscape) and (max-height: 520px) 320px, (min-width: 520px) 820px, 172vw"
+             width="853" height="1280" fetchpriority="high"
+             onload="this.closest('.jc').classList.add('is-photo')" onerror="this.closest('.jc').classList.remove('jc--intro')"
+             alt="파란 하늘 아래, 부케를 든 소영이 진헌을 올려다보며 웃고 두 사람이 손을 맞잡은 사진">
+      </div>
+      <p class="jc__tagline" lang="en" aria-hidden="true"><span class="jc__tagline-x">The </span>Journal of Growing Together</p>
+      <svg class="jc__mast" viewBox="29 -1282 7787 1325" role="img" aria-labelledby="jcNurtureMast" focusable="false">
+        <title id="jcNurtureMast">nurture</title>
+        <path d="M579 -787V-65L654 -33V0H55V-33L141 -68V-738Q124 -761 92 -802Q61 -843 29 -883V-916L552 -1054H579ZM729 -33 804 -65V-658Q804 -706 792 -732Q779 -759 754 -770Q729 -781 690 -781Q657 -781 622 -772Q586 -763 535 -739V-756Q612 -854 666 -912Q720 -969 764 -998Q808 -1026 854 -1035Q900 -1044 960 -1044Q1094 -1044 1168 -968Q1242 -892 1242 -757V-68L1327 -33V0H729Z"/>
+        <path d="M1850 -350Q1850 -309 1861 -286Q1872 -262 1894 -252Q1915 -243 1948 -243Q1977 -243 2008 -251Q2039 -259 2082 -279V-253Q2010 -161 1960 -106Q1909 -51 1867 -24Q1825 3 1781 12Q1737 20 1679 20Q1552 20 1482 -52Q1412 -124 1412 -252V-901L1307 -976V-1009L1855 -1039L1850 -924ZM2067 43 2038 -151V-904L1943 -976V-1009L2492 -1039L2476 -921V-184Q2485 -178 2502 -166Q2518 -155 2538 -142Q2559 -128 2579 -114Q2599 -101 2615 -90V-59L2096 43Z"/>
+        <path d="M3501 -1047Q3564 -1047 3600 -1007Q3636 -967 3636 -903Q3636 -821 3581 -760Q3526 -700 3449 -700Q3395 -700 3360 -708Q3324 -717 3292 -726Q3261 -734 3218 -734Q3188 -734 3166 -730Q3143 -725 3124 -714Q3106 -702 3087 -681L3086 -729Q3176 -834 3237 -897Q3298 -960 3342 -992Q3387 -1025 3424 -1036Q3461 -1047 3501 -1047ZM3134 -837V-68L3240 -33V0H2610V-33L2696 -68V-738Q2683 -755 2672 -770Q2660 -785 2640 -810Q2621 -835 2584 -883V-916L3107 -1054H3134Z"/>
+        <path d="M4201 -331Q4201 -269 4238 -239Q4276 -209 4360 -209Q4407 -209 4460 -215Q4513 -221 4585 -238V-184Q4473 -99 4390 -52Q4308 -6 4240 12Q4172 30 4104 30Q3995 30 3920 -6Q3844 -43 3804 -117Q3765 -191 3765 -303V-794L3595 -941V-971Q3607 -978 3653 -1002Q3699 -1026 3765 -1062Q3831 -1097 3905 -1136Q3979 -1176 4050 -1214Q4122 -1253 4177 -1282H4201V-1001ZM4028 -843V-1024H4545L4522 -843Z"/>
+        <path d="M5054 -350Q5054 -309 5065 -286Q5076 -262 5098 -252Q5119 -243 5152 -243Q5181 -243 5212 -251Q5243 -259 5286 -279V-253Q5214 -161 5164 -106Q5113 -51 5071 -24Q5029 3 4985 12Q4941 20 4883 20Q4756 20 4686 -52Q4616 -124 4616 -252V-901L4511 -976V-1009L5059 -1039L5054 -924ZM5271 43 5242 -151V-904L5147 -976V-1009L5696 -1039L5680 -921V-184Q5689 -178 5706 -166Q5722 -155 5742 -142Q5763 -128 5783 -114Q5803 -101 5819 -90V-59L5300 43Z"/>
+        <path d="M6705 -1047Q6768 -1047 6804 -1007Q6840 -967 6840 -903Q6840 -821 6785 -760Q6730 -700 6653 -700Q6599 -700 6564 -708Q6528 -717 6496 -726Q6465 -734 6422 -734Q6392 -734 6370 -730Q6347 -725 6328 -714Q6310 -702 6291 -681L6290 -729Q6380 -834 6441 -897Q6502 -960 6546 -992Q6591 -1025 6628 -1036Q6665 -1047 6705 -1047ZM6338 -837V-68L6444 -33V0H5814V-33L5900 -68V-738Q5887 -755 5876 -770Q5864 -785 5844 -810Q5825 -835 5788 -883V-916L6311 -1054H6338Z"/>
+        <path d="M7358 -1054Q7497 -1054 7592 -1001Q7687 -948 7740 -849Q7792 -750 7802 -613H7116V-704H7628L7426 -649Q7422 -780 7410 -850Q7399 -920 7378 -947Q7356 -974 7322 -974Q7285 -974 7260 -950Q7234 -926 7222 -857Q7209 -788 7209 -652Q7209 -504 7242 -415Q7275 -326 7341 -286Q7407 -245 7506 -245Q7560 -245 7604 -256Q7648 -267 7692 -294Q7736 -321 7787 -369L7816 -343Q7741 -203 7666 -122Q7591 -40 7508 -5Q7426 30 7326 30Q7167 30 7050 -32Q6933 -95 6869 -212Q6805 -329 6805 -490Q6805 -640 6867 -768Q6929 -897 7052 -976Q7175 -1054 7358 -1054Z"/>
+      </svg>
+      <p class="jc__issue" lang="en" aria-hidden="true"><span class="jc__vol"><span class="jc__vol-x">Vol. 1 · </span>No. 1219</span><span class="jc__date" data-jc-issue-date>19 December 2026</span><span class="jc__si">AI-CC <span class="jc__si-y">2026 </span><span class="jc__si-x">Special Issue</span></span></p>
+    </div>
+
+    <div class="jc__story">
+      <p class="jc__kicker" lang="en" aria-hidden="true"><span data-jc-kicker>Cover story</span></p>
+      <p class="jc__line" lang="en"><em>Attendance</em> <span class="jc__l2">Is All We Need</span></p>
+      <h1 class="jc__h1"><span class="jc__names"><span data-w="groom.first">진헌</span> <span class="jc__heart" aria-hidden="true">♥</span> <span data-w="bride.first">소영</span></span> <span class="jc__verb" data-jc-verb>결혼합니다</span></h1>
+      <script>window.aiccOrder && aiccOrder(document.currentScript.previousElementSibling)</script>
+      <div class="jc__facts">
+        <p class="jc__when" data-jc-when><span data-w="date.ko">2026년 12월 19일 토요일 오후&nbsp;6시</span></p>
+        <p class="jc__where"><span data-w="venueHall">더그랜드롯데&nbsp;서울 3층&nbsp;사파이어볼룸</span> <span class="jc__former">(구&nbsp;<span data-w="venue.formerName">롯데호텔&nbsp;서울</span>)</span></p>
+      </div>
+      <div class="jc__foot">
+        <span class="jc__oa" lang="en" aria-hidden="true"><svg viewBox="0 0 16 20" aria-hidden="true" focusable="false"><path d="M4.2 9V5.6a3.8 3.8 0 0 1 7.5-.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="1.5" y="9" width="13" height="10" rx="2.2" fill="currentColor"/><circle cx="8" cy="14" r="1.7" style="fill: var(--ink-deep)"/></svg>Open Access</span>
+        <a class="jc__cue" href="#main" data-cover-cue><span data-jc-cue>초대장 보기</span> <span class="jc__arrow" aria-hidden="true">▾</span></a>
+        <span class="jc__end"><img class="jc__barcode" src="assets/cover/barcode.svg" width="112" height="59" alt="" aria-hidden="true"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ STICKY CONFERENCE NAV ============ -->
+  <nav class="topnav" id="topnav" aria-label="섹션 바로가기">
+    <a class="topnav__logo" href="#top" aria-label="AI-CC 맨 위로"><svg class="logo__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="14"/><path class="logo__tag" d="M16.4 22.6 8.2 32l8.2 9.4M48.2 22.6 56.4 32l-8.2 9.4M38.4 42.4l5.2-20.8"/><path class="logo__heart" d="M26.6 39.22C23.79 36.72 18.8 33.84 18.8 29.86C18.8 26.9 20.91 25.18 22.86 25.18C24.88 25.18 26.21 26.51 26.6 27.91C26.99 26.51 28.32 25.18 30.34 25.18C32.29 25.18 34.4 26.9 34.4 29.86C34.4 33.84 29.41 36.72 26.6 39.22Z"/></svg><span class="topnav__logo-text">AI-CC</span></a>
+    <div class="topnav__scroller" id="topnavScroller">
+      <a href="#cfp">초대의 글</a>
+      <a href="#dates">예식 일시</a>
+      <a href="#venue">오시는 길</a>
+      <a href="#gift">마음 전하기</a>
+      <a href="#rsvp">참석 여부</a>
+      <a href="#gallery">갤러리</a>
+      <a href="#reviews">축하 리뷰</a>
+      <a href="#challenge">미니 게임</a>
+    </div>
+    <button class="bgm topnav__bgm" type="button" data-bgm aria-pressed="false" aria-label="배경음악" hidden><svg class="bgm__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="bgm__off"><path d="M9 17.5V6.5l10-2.5v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/><path d="m3.5 3.5 17 17"/></g><g class="bgm__on"><path class="bgm__bar" d="M5 9.5v5"/><path class="bgm__bar" d="M9.67 6v12"/><path class="bgm__bar" d="M14.33 8v8"/><path class="bgm__bar" d="M19 10.5v3"/></g></svg></button>
+    <button class="topnav__all" type="button" id="navAll" aria-expanded="false" aria-controls="navSheet"><span class="topnav__burger" aria-hidden="true"></span>전체</button>
+    <div class="navsheet" id="navSheet" hidden>
+      <div class="navsheet__head">
+        <p class="navsheet__title"><span class="mono">Program</span> · 전체 보기</p>
+        <button class="navsheet__close" type="button" id="navClose">닫기 <span aria-hidden="true">✕</span></button>
+      </div>
+      <ol class="navsheet__list">
+        <li><a href="#cfp"><span>01</span>초대의 글<em>Call for Participation</em></a></li>
+        <li><a href="#dates"><span>02</span>예식 일시<em>Important Dates</em></a></li>
+        <li><a href="#venue"><span>03</span>오시는 길<em>Venue &amp; Travel</em></a></li>
+        <li><a href="#gift"><span>04</span>마음 전하실 곳<em>With Gratitude</em></a></li>
+        <li><a href="#rsvp"><span>05</span>참석 여부<em>Registration</em></a></li>
+        <li><a href="#gallery"><span>06</span>갤러리<em>Past Venues</em></a></li>
+        <li><a href="#reviews"><span>07</span>축하 리뷰 (방명록)<em>Official Reviews</em></a></li>
+        <li><a href="#challenge"><span>08</span>미니 게임<em>Challenge Track</em></a></li>
+      </ol>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1">
+
+    <!-- Quick actions for the three things guests look for most (after the wedding: reviews · photos · gift) -->
+    <nav class="quick" id="quick" aria-label="자주 찾는 메뉴">
+      <a class="quick__btn" href="#rsvp" id="quickRsvp">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8.8 15.2l2.2 2.2 4.4-4.6"/></svg><span id="quickRsvpLabel">참석 여부</span>
+      </a>
+      <a class="quick__btn" href="#venue" id="quickVenue">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.4"/></svg><span>오시는 길</span>
+      </a>
+      <a class="quick__btn" href="#gift" id="quickGift">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg><span>마음 전하기</span>
+      </a>
+    </nav>
+
+    <!-- ============ 01 CALL FOR PARTICIPATION ============ -->
+    <section class="sec" id="cfp" aria-labelledby="cfpTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">01</span>Call for Participation</p>
+        <h2 class="sec-title" id="cfpTitle">초대의 글</h2>
+      </header>
+      <div class="lineart reveal" aria-hidden="true"></div>
+      <div class="greeting reveal" id="greeting">
+        <p><span class="gline"><span class="gh">고려대학교 컴퓨터학과에서</span> <span class="gh">처음 만나</span></span><span class="gline"><span class="gh">KAIST에서 같은 꿈을 꾸며</span> <span class="gh">걸어온 두 사람이</span></span><span class="gline"><span class="gh">이제 평생을</span> <span class="gh">함께하려 합니다.</span></span></p>
+        <p><span class="gline"><span class="gh">귀한 걸음 하시어</span> <span class="gh">저희의 새로운 시작을</span></span><span class="gline"><span class="gh">따뜻한 마음으로</span> <span class="gh">축복해 주시면</span></span><span class="gline"><span class="gh">더없는 기쁨으로</span> <span class="gh">간직하겠습니다.</span></span></p>
+      <!--/greeting--></div>
+
+      <div class="chairs reveal" role="group" aria-labelledby="chairsTitle">
+        <p class="chairs__label" id="chairsTitle"><span class="en" lang="en">General Chairs</span> <span class="ko">혼주</span></p>
+        <p class="chair-line" id="chairGroom"><span class="parents">백천석 · 정미란</span><span class="rel">의 장남</span> <strong>진헌</strong></p>
+        <p class="chair-line" id="chairBride"><span class="parents">정지원 · 윤정주</span><span class="rel">의 장녀</span> <strong>소영</strong></p>
+      </div>
+    </section>
+
+    <!-- ============ 02 IMPORTANT DATES ============ -->
+    <section class="sec sec--sand" id="dates" aria-labelledby="datesTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">02</span>Important Dates</p>
+        <h2 class="sec-title" id="datesTitle">예식 일시</h2>
+      </header>
+
+      <div class="datecard reveal">
+        <p class="datecard__date" id="whenDate"><span>2026년 12월&nbsp;19일</span> <span>토요일 오후&nbsp;6시</span></p>
+        <p class="datecard__en mono" id="whenEn">2026-12-19&nbsp;Sat · 18:00&nbsp;KST</p>
+        <p class="datecard__venue"><span class="nb" data-w="venue.name">더그랜드롯데 서울</span> <span class="nb" data-w="venue.hall">3층 사파이어볼룸</span></p>
+        <p class="datecard__former">(구 <span data-w="venue.formerName">롯데호텔&nbsp;서울</span>)</p>
+
+        <div class="cal" id="calendar">
+            <p class="cal__title"><b>2026년 12월</b><span lang="en">December</span></p>
+            <table aria-label="2026년 12월 달력, 19일 예식"><thead><tr><th class="sun" scope="col">일</th><th scope="col">월</th><th scope="col">화</th><th scope="col">수</th><th scope="col">목</th><th scope="col">금</th><th class="sat" scope="col">토</th></tr></thead><tbody><tr><td></td><td></td><td><span>1</span></td><td><span>2</span></td><td><span>3</span></td><td><span>4</span></td><td class="sat"><span>5</span></td></tr><tr><td class="sun"><span>6</span></td><td><span>7</span></td><td><span>8</span></td><td><span>9</span></td><td><span>10</span></td><td><span>11</span></td><td class="sat"><span>12</span></td></tr><tr><td class="sun"><span>13</span></td><td><span>14</span></td><td><span>15</span></td><td><span>16</span></td><td><span>17</span></td><td><span>18</span></td><td class="sat is-day"><span>19</span><b class="vh">예식일</b></td></tr><tr><td class="sun"><span>20</span></td><td><span>21</span></td><td><span>22</span></td><td><span>23</span></td><td><span>24</span></td><td class="hol"><span>25</span></td><td class="sat"><span>26</span></td></tr><tr><td class="sun"><span>27</span></td><td><span>28</span></td><td><span>29</span></td><td><span>30</span></td><td><span>31</span></td><td></td><td></td></tr></tbody></table>
+          <!--/calendar--></div>
+
+        <div class="dday" id="dday">
+          <p class="vh" id="cdD"></p>
+          <p class="dday__text" id="cdKo" hidden></p>
+          <div class="countdown" id="cdUnits" aria-hidden="true">
+            <div class="countdown__row">
+              <span class="countdown__days"><b id="cdDays">0</b><small>일</small></span>
+              <span><b id="cdHours">00</b><small>시간</small></span>
+              <span><b id="cdMins">00</b><small>분</small></span>
+              <span><b id="cdSecs">00</b><small>초</small></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calsave">
+          <p class="calsave__label">캘린더에 일정 추가하기</p>
+          <div class="btn-row">
+            <a class="btn btn--line" id="calGoogle" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%EB%B0%B1%EC%A7%84%ED%97%8C+%E2%99%A5+%EC%A0%95%EC%86%8C%EC%98%81+%EA%B2%B0%ED%98%BC%EC%8B%9D&amp;dates=20261219T090000Z%2F20261219T110000Z&amp;location=%EB%8D%94%EA%B7%B8%EB%9E%9C%EB%93%9C%EB%A1%AF%EB%8D%B0+%EC%84%9C%EC%9A%B8+%28%EA%B5%AC+%EB%A1%AF%EB%8D%B0%ED%98%B8%ED%85%94+%EC%84%9C%EC%9A%B8%29+3%EC%B8%B5+%EC%82%AC%ED%8C%8C%EC%9D%B4%EC%96%B4%EB%B3%BC%EB%A3%B8%2C+%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C+%EC%A4%91%EA%B5%AC+%EC%86%8C%EA%B3%B5%EB%8F%99+1&amp;details=https%3A%2F%2Fai-cc-wedding.github.io%2F" target="_blank" rel="noopener" aria-label="Google 캘린더에 일정 추가 (새 창)">
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Google 캘린더
+            </a>
+            <a class="btn btn--line" id="calIcs" href="assets/wedding.ics" aria-label="휴대폰 캘린더에 일정 추가">
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>휴대폰 캘린더
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <ol class="idates reveal" id="idates" aria-label="주요 일정">
+        <li class="idate"><p class="idate__when">12월 5일(토)까지</p><p class="idate__what">참석 회신 마감<span class="en" lang="en">Registration</span></p></li>
+        <li class="idate idate--main"><p class="idate__when">12월 19일(토) 오후&nbsp;6시<span class="idate__tag">Main</span></p><p class="idate__what">본식<span class="en" lang="en">Main Conference</span></p></li>
+        <li class="idate idate--awards"><p class="idate__when">예식 당일</p><p class="idate__what">시상 (Best&nbsp;Reviewer&nbsp;· 미니&nbsp;게임&nbsp;1위)<span class="en" lang="en">Closing Ceremony</span></p></li>
+      </ol>
+    </section>
+
+    <!-- ============ 03 VENUE & TRAVEL ============ -->
+    <section class="sec" id="venue" aria-labelledby="venueTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">03</span>Venue &amp; Travel</p>
+        <h2 class="sec-title" id="venueTitle">오시는 길</h2>
+      </header>
+
+      <div class="venue reveal">
+        <p class="venue__name" data-w="venue.name">더그랜드롯데 서울</p>
+        <p class="venue__hall" data-w="venue.hall">3층 사파이어볼룸</p>
+        <p class="venue__former">(구 <span data-w="venue.formerName">롯데호텔&nbsp;서울</span>)</p>
+        <div class="venue__addr">
+          <p class="venue__jibun"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.4"/></svg><span id="addrMain">서울특별시 중구 <span class="nb">소공동 1</span></span></p>
+          <p class="venue__road" id="addrRoad"><span class="venue__road-tag">도로명</span> <span id="addrRoadText">서울특별시 중구 을지로 30</span></p>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn--line" type="button" id="copyAddr">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg>주소 복사
+          </button>
+          <a class="btn btn--line" id="venueTel" href="tel:027711000" aria-label="호텔에 전화하기 (대표번호 02-771-1000)">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9 3.3l1.7 4.1-2 1.4a12 12 0 0 0 6.5 6.5l1.4-2 4.1 1.7-.5 2.4a2 2 0 0 1-2 1.6A15.6 15.6 0 0 1 3.4 5.8a2 2 0 0 1 1.6-2Z"/></svg>호텔 전화
+          </a>
+        </div>
+      </div>
+
+      <div class="map reveal" id="mapWrap">
+        <div class="map__canvas" id="map" role="region" aria-label="예식장 위치 지도"></div>
+        <div class="map__fallback" id="mapFallback" hidden>
+          <p class="map__fallback-title">지도를 불러오지 못했어요</p>
+          <p>아래 버튼으로 지도 앱에서 확인해 주세요.</p>
+        </div>
+      </div>
+
+      <div class="maplinks reveal" id="mapLinks">
+        <a class="maplink maplink--naver" href="https://map.naver.com/p/entry/place/11583194" target="_blank" rel="noopener"><i aria-hidden="true">N</i>네이버 지도</a>
+        <a class="maplink maplink--kakao" href="https://map.kakao.com/link/map/7855876" target="_blank" rel="noopener"><i aria-hidden="true">K</i>카카오맵</a>
+        <a class="maplink maplink--google" href="https://maps.google.com/?cid=4276751823863535449" target="_blank" rel="noopener"><i aria-hidden="true">G</i>Google 지도</a>
+      </div>
+
+      <div class="routes reveal" id="routes">
+          <div class="route"><span class="route__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3.5"></rect><path d="M5 11h14M8.5 14h.01M15.5 14h.01M8 21l2-4M16 21l-2-4"></path></svg></span><div><p class="route__title">지하철<small>Subway</small></p><ul><li>2호선 을지로입구역 7·8번 출구 방면 · 지하&nbsp;통로로 호텔과 연결 (도보&nbsp;약&nbsp;2~3분)</li><li>1·2호선 시청역 5·6번 출구 · 도보&nbsp;약&nbsp;7~10분</li></ul></div></div>
+          <button class="routes__more" type="button"><span>다른 교통편 보기<small>(기차 · 버스 · 자가용)</small></span><span class="chev" aria-hidden="true">▾</span></button>
+          <div class="routes__rest" id="routesMore"><div class="route"><span class="route__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 15.5V9a5 5 0 0 1 5-5h9.5L20 9.5v6a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 15.5Z"></path><path d="M4 11h16M8 20l1.5-3M16 20l-1.5-3M13 4v7"></path></svg></span><div><p class="route__title">기차 · KTX<small>Train</small></p><ul><li>KTX 서울역 → 1호선 시청역(1정거장) 하차 후 도보</li><li>서울역에서 택시 약&nbsp;10~20분 (교통 상황에 따라 다름)</li></ul></div></div><div class="route"><span class="route__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="14" rx="3"></rect><path d="M4 10h16M8 14h.01M16 14h.01M7 17.5V20M17 17.5V20"></path></svg></span><div><p class="route__title">버스<small>Bus</small></p><ul><li>롯데백화점 · 롯데영프라자 · 명동입구 · 명동 국민은행 앞 정류장 하차</li></ul></div></div><div class="route"><span class="route__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16.5v2.5M19 16.5v2.5M3.5 16.5h17v-4l-2-5.5h-13l-2 5.5Z"></path><path d="M3.5 12.5h17M7.5 14.5h.01M16.5 14.5h.01"></path></svg></span><div><p class="route__title">자가용<small>Car</small></p><ul><li>내비게이션에 「더그랜드롯데 서울」 또는 「중구 소공동 1」 입력</li><li>롯데백화점 본점과 주차장을 함께 사용합니다</li><li>하객 주차 3시간 무료</li></ul></div></div></div>
+        <!--/routes--></div>
+    </section>
+
+    <!-- ============ 04 GIFT ============ -->
+    <section class="sec" id="gift" aria-labelledby="giftTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">04</span>With Gratitude</p>
+        <h2 class="sec-title" id="giftTitle">마음 전하실 곳</h2>
+      </header>
+      <div class="gift-note reveal" id="giftNote"><p>참석이 어려우신 분들을 위해 계좌번호를 기재하였습니다.</p><p>너그러운 마음으로 양해 부탁드립니다.</p></div>
+      <div class="accts reveal" id="accounts">
+          <div class="acct"><button class="acct__head" type="button"><span>신랑측 계좌번호</span><span class="chev" aria-hidden="true">▾</span></button><div class="acct__body" id="acct-groom"><div class="acct-row"><div><p class="acct-row__who">신랑 아버지<b>백천석</b></p><p class="acct-row__num"><span class="bank">하나은행</span><span class="mono">717-<wbr>910910-<wbr>86807</span></p></div><button class="btn btn--ink" type="button" aria-label="신랑 아버지 백천석 계좌번호 복사">복사</button></div><div class="acct-row"><div><p class="acct-row__who">신랑 어머니<b>정미란</b></p><p class="acct-row__num"><span class="bank">하나은행</span><span class="mono">717-<wbr>910078-<wbr>01407</span></p></div><button class="btn btn--ink" type="button" aria-label="신랑 어머니 정미란 계좌번호 복사">복사</button></div><div class="acct-row"><div><p class="acct-row__who">신랑<b>백진헌</b></p><p class="acct-row__num"><span class="bank">하나은행</span><span class="mono">391-<wbr>911050-<wbr>09007</span></p></div><button class="btn btn--ink" type="button" aria-label="신랑 백진헌 계좌번호 복사">복사</button></div></div></div>
+          <div class="acct"><button class="acct__head" type="button"><span>신부측 계좌번호</span><span class="chev" aria-hidden="true">▾</span></button><div class="acct__body" id="acct-bride"><div class="acct-row"><div><p class="acct-row__who">신부 아버지<b>정지원</b></p><p class="acct-row__num"><span class="bank">하나은행</span><span class="mono">752-<wbr>910102-<wbr>85107</span></p></div><button class="btn btn--ink" type="button" aria-label="신부 아버지 정지원 계좌번호 복사">복사</button></div><div class="acct-row"><div><p class="acct-row__who">신부 어머니<b>윤정주</b></p><p class="acct-row__num"><span class="bank">하나은행</span><span class="mono">448-<wbr>910308-<wbr>01807</span></p></div><button class="btn btn--ink" type="button" aria-label="신부 어머니 윤정주 계좌번호 복사">복사</button></div><div class="acct-row"><div><p class="acct-row__who">신부<b>정소영</b></p><p class="acct-row__num"><span class="bank">하나은행</span><span class="mono">391-<wbr>911052-<wbr>20307</span></p></div><button class="btn btn--ink" type="button" aria-label="신부 정소영 계좌번호 복사">복사</button></div></div></div>
+        <!--/accounts--></div>
+    </section>
+
+    <!-- ============ 05 REGISTRATION (RSVP) ============ -->
+    <section class="sec sec--sun" id="rsvp" aria-labelledby="rsvpTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">05</span>Registration</p>
+        <h2 class="sec-title" id="rsvpTitle">참석 여부</h2>
+        <p class="epigraph" lang="en">“Attendance is all we need.”</p>
+      </header>
+      <p class="lead reveal" id="rsvpLead">축하의 마음으로 와 주시는 모든 분을 정성껏 모실&nbsp;수 있도록, 참석&nbsp;여부를 미리 여쭙습니다.</p>
+      <p class="demo-note" data-demo-note hidden></p>
+      <noscript><p class="noscript-note">이 화면에서는 참석 여부를 보낼 수 없어요. 신랑·신부에게 직접 알려 주세요.</p></noscript>
+
+      <div class="rsvp-closed" id="rsvpClosed" hidden>
+        <p class="rsvp-closed__title">참석 여부 접수를 마감했습니다</p>
+        <p class="rsvp-closed__text">함께 축하해 주신 모든 분께 진심으로 감사드립니다.</p>
+      </div>
+
+      <div class="rsvp-done" id="rsvpDone" hidden>
+        <p class="rsvp-done__msg" id="rsvpDoneMsg" role="status" aria-live="polite"></p>
+        <div class="badge-wrap" id="badgeWrap"></div>
+        <p class="hint center" id="rsvpKeep">기념으로 화면을 캡처해 두셔도 좋아요 📸</p>
+        <button class="btn btn--line btn--block" type="button" id="rsvpEdit">응답 수정하기</button>
+      </div>
+
+      <form class="form card reveal" id="rsvpForm" novalidate>
+        <fieldset class="field">
+          <legend class="field__label">참석 여부 <b class="req">필수</b></legend>
+          <div class="seg seg--2" role="radiogroup">
+            <label class="seg__opt"><input type="radio" name="attending" value="yes"><span>참석할게요</span></label>
+            <label class="seg__opt"><input type="radio" name="attending" value="no"><span>참석이 어려워요</span></label>
+          </div>
+          <p class="field__err" id="errAttending"></p>
+        </fieldset>
+        <div class="field">
+          <label class="field__label" for="rName">성함 <b class="req">필수</b></label>
+          <input class="input" id="rName" name="name" type="text" autocomplete="name" maxlength="30" placeholder="홍길동" aria-describedby="errName">
+          <p class="field__err" id="errName"></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="rPhone">연락처 <b class="req">필수</b></label>
+          <input class="input" id="rPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="010-1234-5678" aria-describedby="errPhone">
+          <p class="field__err" id="errPhone"></p>
+        </div>
+        <fieldset class="field">
+          <legend class="field__label">어느 쪽 하객이신가요? <span class="opt">선택</span></legend>
+          <div class="seg seg--2" role="radiogroup">
+            <label class="seg__opt"><input type="radio" name="side" value="groom"><span>신랑측</span></label>
+            <label class="seg__opt"><input type="radio" name="side" value="bride"><span>신부측</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label class="field__label" for="rMsg">전하고 싶은 말 <span class="opt">선택</span></label>
+          <textarea class="input input--area" id="rMsg" name="message" rows="3" maxlength="500" placeholder="신랑·신부에게 한마디"></textarea>
+        </div>
+        <p class="form__err" id="rsvpErr" role="alert"></p>
+        <button class="btn btn--ink btn--block btn--lg" type="submit" id="rsvpSubmit">참석 의사 전달하기</button>
+        <button class="btn btn--line btn--block" type="button" id="rsvpCancel" hidden>수정 취소</button>
+      </form>
+    </section>
+
+    <!-- ============ KEYNOTE SPEAKERS (a light interlude between the practical half and the photos) ============ -->
+    <section class="sec sec--speakers" id="speakers" aria-labelledby="speakersTitle">
+      <div class="speakers reveal">
+        <p class="speakers__label" id="speakersTitle"><span class="en" lang="en">Keynote Speakers</span> <span class="ko">신랑·신부</span></p>
+        <div class="speakers__row">
+          <a class="speaker" id="spkGroom" href="https://jinheonbaek.github.io/" target="_blank" rel="noopener">
+            <img src="assets/chibi-groom-240.png" alt="" width="240" height="349" loading="lazy" decoding="async">
+            <span class="speaker__role">신랑</span>
+            <span class="speaker__name" data-w="groom.name">백진헌</span>
+            <span class="speaker__en" data-w="groom.en" lang="en">Jinheon Baek</span>
+            <span class="speaker__link mono">homepage ↗</span>
+          </a>
+          <a class="speaker" id="spkBride" href="https://starsuzi.github.io/" target="_blank" rel="noopener">
+            <img src="assets/chibi-bride-240.png" alt="" width="240" height="292" loading="lazy" decoding="async">
+            <span class="speaker__role">신부</span>
+            <span class="speaker__name" data-w="bride.name">정소영</span>
+            <span class="speaker__en" data-w="bride.en" lang="en">Soyeong Jeong</span>
+            <span class="speaker__link mono">homepage ↗</span>
+          </a>
+        </div>
+        <script>window.aiccOrder && aiccOrder(document.currentScript.previousElementSibling)</script>
+      </div>
+    </section>
+
+    <!-- ============ 06 PAST VENUES (GALLERY) ============ -->
+    <section class="sec" id="gallery" aria-labelledby="galleryTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">06</span>Past Venues</p>
+        <h2 class="sec-title" id="galleryTitle">갤러리</h2>
+      </header>
+      <noscript><p class="noscript-note">이 화면에서는 사진을 볼 수 없어요.</p></noscript>
+      <div class="tabs reveal" id="galleryTabs" role="group" aria-label="세션 바로가기"></div>
+      <div id="gallerySessions"></div>
+      <p class="hint center gallery__hint">사진을 누르면 크게 볼 수 있어요.</p>
+    </section>
+
+    <!-- ============ 07 OFFICIAL REVIEWS ============ -->
+    <section class="sec" id="reviews" aria-labelledby="reviewsTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow__no">07</span>Official Reviews</p>
+        <h2 class="sec-title" id="reviewsTitle">축하 리뷰 <span class="sec-title__aside">(방명록)</span></h2>
+      </header>
+      <p class="lead reveal">두 사람에게 축하의 리뷰를 남겨&nbsp;주세요.</p>
+
+      <div class="award reveal">
+        <p class="award__kicker" lang="en"><span class="nb"><svg class="award__laurel" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M15.5 46.8Q0.6 30 13.2 10.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.3 42.7Q8.8 37.6 3 40.4Q6.9 45.6 12.3 42.7ZM12.3 42.7Q16.1 39.4 12.8 35.3Q9.1 38.9 12.3 42.7ZM9.2 36.8Q7 31.1 0.9 32.7Q3.4 38.5 9.2 36.8ZM9.2 36.8Q13.5 34.5 11.2 29.9Q6.8 32.5 9.2 36.8ZM7.6 30.7Q7.1 24.8 0.9 24.9Q1.7 31 7.6 30.7ZM7.6 30.7Q12.3 29.7 11.2 24.8Q6.3 26.1 7.6 30.7ZM7.6 24.4Q8.7 18.7 2.8 17.4Q1.9 23.4 7.6 24.4ZM7.6 24.4Q12.4 24.7 12.4 19.8Q7.5 19.7 7.6 24.4ZM9.3 18Q11.6 12.8 6.2 10.4Q4 15.9 9.3 18ZM9.3 18Q13.7 19.4 14.7 14.6Q10 13.4 9.3 18ZM13.2 10.2Q18.3 9.1 17.3 3.8Q12 5.1 13.2 10.2Z" fill="currentColor"/></svg>Best</span> Reviewer <span class="nb">Award<svg class="award__laurel award__laurel--r" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M15.5 46.8Q0.6 30 13.2 10.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.3 42.7Q8.8 37.6 3 40.4Q6.9 45.6 12.3 42.7ZM12.3 42.7Q16.1 39.4 12.8 35.3Q9.1 38.9 12.3 42.7ZM9.2 36.8Q7 31.1 0.9 32.7Q3.4 38.5 9.2 36.8ZM9.2 36.8Q13.5 34.5 11.2 29.9Q6.8 32.5 9.2 36.8ZM7.6 30.7Q7.1 24.8 0.9 24.9Q1.7 31 7.6 30.7ZM7.6 30.7Q12.3 29.7 11.2 24.8Q6.3 26.1 7.6 30.7ZM7.6 24.4Q8.7 18.7 2.8 17.4Q1.9 23.4 7.6 24.4ZM7.6 24.4Q12.4 24.7 12.4 19.8Q7.5 19.7 7.6 24.4ZM9.3 18Q11.6 12.8 6.2 10.4Q4 15.9 9.3 18ZM9.3 18Q13.7 19.4 14.7 14.6Q10 13.4 9.3 18ZM13.2 10.2Q18.3 9.1 17.3 3.8Q12 5.1 13.2 10.2Z" fill="currentColor"/></svg></span></p>
+        <p class="award__text" data-w="contest.reviewPrize">정성 가득한 리뷰 중 Best&nbsp;Reviewer를 골라 결혼식 당일 선물을 드려요.</p>
+      </div>
+      <p class="demo-note" data-demo-note hidden></p>
+      <noscript><p class="noscript-note">이 화면에서는 축하 리뷰를 남길 수 없어요.</p></noscript>
+
+      <form class="form card review-form reveal" id="reviewForm" novalidate>
+        <p class="review-form__head mono">Official Review · AI-CC 2026 Main Track</p>
+        <div class="field">
+          <label class="field__label" for="rvName">성함 <span class="en">Reviewer</span></label>
+          <input class="input" id="rvName" type="text" maxlength="30" autocomplete="name" placeholder="홍길동" aria-describedby="errRvName">
+          <p class="field__err" id="errRvName"></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="rvText">축하 한마디 <span class="en">Summary</span></label>
+          <div class="qchips" id="rvQuick" hidden>
+            <p class="qchips__label" id="rvQuickLabel">눌러서 바로 쓰기</p>
+            <div class="qchips__row" role="group" aria-labelledby="rvQuickLabel"></div>
+          </div>
+          <textarea class="input input--area" id="rvText" rows="4" maxlength="1000" placeholder="두 사람에게 전하고 싶은 축하의 말을 적어 주세요" aria-describedby="errRvText"></textarea>
+          <p class="field__err" id="errRvText"></p>
+        </div>
+
+        <button class="expander" type="button" id="rvMoreBtn" aria-expanded="false" aria-controls="rvMore">학회 스타일로 쓰기 <span class="expander__opt">선택</span><span class="expander__chev" aria-hidden="true">▾</span></button>
+        <div class="rv-more" id="rvMore" hidden>
+          <fieldset class="field">
+            <legend class="field__label">Overall Rating <span class="opt">총평</span></legend>
+            <div class="chips" id="rvRating"></div>
+            <p class="chips__tip" id="rvRatingTip" role="status" aria-live="polite"></p>
+          </fieldset>
+          <fieldset class="field">
+            <legend class="field__label">Confidence <span class="opt">두 사람을 얼마나 아시나요?</span></legend>
+            <div class="chips chips--stack" id="rvConf"></div>
+          </fieldset>
+          <div class="field">
+            <label class="field__label" for="rvStrength">Strengths <span class="opt">두 사람의 장점 한 줄</span></label>
+            <input class="input" id="rvStrength" type="text" maxlength="80" placeholder="예) 서로를 웃게 만드는 능력">
+          </div>
+          <p class="rv-more__weak"><span class="mono">Weaknesses:</span> 찾지 못했습니다 <span class="mono">(N/A)</span></p>
+        </div>
+
+        <p class="form__err" id="reviewErr" role="alert"></p>
+        <button class="btn btn--ink btn--block btn--lg" type="submit" id="reviewSubmit">리뷰 등록하기</button>
+      </form>
+
+      <div class="rv-list-head reveal">
+        <p class="rv-list-head__title">Reviews <span class="rv-count mono" id="rvCount"></span></p>
+      </div>
+      <div class="rv-list" id="rvList" aria-live="polite" aria-busy="true"></div>
+      <button class="btn btn--line btn--block" type="button" id="rvMore2" hidden>리뷰 더 보기</button>
+    </section>
+
+    <!-- ============ 08 CHALLENGE TRACK ============ -->
+    <section class="sec sec--ink" id="challenge" aria-labelledby="challengeTitle">
+      <header class="sec-head reveal">
+        <p class="eyebrow eyebrow--dark"><span class="eyebrow__no">08</span>Challenge Track</p>
+        <h2 class="sec-title" id="challengeTitle">미니 게임 <span class="sec-title__aside">Human SVM</span></h2>
+      </header>
+
+      <figure class="ch-banner reveal" id="chBanner">
+        <figcaption class="ch-banner__cap">
+          <span class="mono">Human SVM Challenge</span>
+          <strong>버진로드를 열어라!</strong>
+        </figcaption>
+      </figure>
+
+      <p class="ch-oneliner reveal">신랑측 <b class="cls cls--g">♥</b> 하객과 신부측 <b class="cls cls--b">★</b> 하객 사이로, 직선 하나를 그어 두&nbsp;사람이 걸어갈 길을 내&nbsp;주세요!</p>
+
+      <ol class="howto reveal">
+        <li><span class="howto__no">1</span><p><b>화면을 한 번 쭉 그어</b> 직선을 그려요.<small>두 곳을 차례로 톡, 톡 눌러도 돼요.</small></p></li>
+        <li><span class="howto__no">2</span><p><b class="cls cls--g">♥</b>는 <b class="cls cls--g">♥</b>끼리, <b class="cls cls--b">★</b>은 <b class="cls cls--b">★</b>끼리 — <b>각자 자리에 앉으면 성공!</b></p></li>
+        <li><span class="howto__no">3</span><p><b>가운데 길(마진)이 넓을수록, 빨리 그을수록</b> 점수가 올라가요.</p></li>
+      </ol>
+      <p class="demo-note demo-note--dark" data-demo-note hidden></p>
+      <noscript><p class="noscript-note">이 화면에서는 미니 게임을 할 수 없어요.</p></noscript>
+
+      <button class="btn btn--amber btn--block btn--xl reveal" type="button" id="playBtn">
+        <svg class="ico ico--fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z"/></svg>게임 시작하기
+      </button>
+
+      <!-- Result + score submission live in normal page flow (KakaoTalk keyboard bug safe) -->
+      <div class="result card" id="result" hidden tabindex="-1" aria-labelledby="resultTitle">
+        <p class="result__kicker mono">Your Submission</p>
+        <p class="result__title" id="resultTitle"></p>
+        <p class="result__score"><span class="mono" id="resultScore">0</span><small>/ <span id="resultMax">1,000,000</span></small></p>
+        <p class="result__stats" id="resultStats"></p>
+        <ol class="result__rounds" id="resultRounds"></ol>
+        <form class="result__form" id="scoreForm" novalidate>
+          <p class="result__form-title">리더보드에 기록 남기기</p>
+          <div class="result__fields">
+            <div class="field">
+              <label class="field__label" for="sName">성함</label>
+              <input class="input" id="sName" type="text" maxlength="30" autocomplete="name" placeholder="홍길동">
+            </div>
+            <div class="field">
+              <label class="field__label" for="sPhone4">연락처 뒤 4자리</label>
+              <input class="input mono" id="sPhone4" type="tel" inputmode="numeric" maxlength="4" placeholder="1234">
+            </div>
+          </div>
+          <p class="hint">시상 확인을 위해 참석 회신 때 적으신 성함으로 남겨 주세요. 리더보드에는 성함과 점수만 보여요.</p>
+          <p class="hint result__best" id="resultBest" hidden></p>
+          <p class="form__err" id="scoreErr" role="alert"></p>
+          <button class="btn btn--ink btn--block btn--lg" type="submit" id="scoreSubmit">기록 등록하기</button>
+        </form>
+        <p class="result__rank" id="resultRank" role="status" aria-live="polite"></p>
+        <p class="hint center result__rsvp" id="resultRsvp" hidden>시상은 참석으로 회신해 주신 분께 드려요. <a href="#rsvp">참석 여부 알려 주기&nbsp;›</a></p>
+        <p class="hint center result__keep" id="resultKeep" hidden>기념으로 화면을 캡처해 두셔도 좋아요 📸</p>
+        <button class="btn btn--line btn--block btn--lg" type="button" id="againBtn">다시 하기</button>
+      </div>
+
+      <div class="lb reveal" id="leaderboard">
+        <div class="lb__head">
+          <p class="lb__title"><span id="lbTitle">Leaderboard</span> <span class="lb__title-ko" id="lbTitleKo">실시간 순위</span></p>
+          <button class="lb__refresh" type="button" id="lbRefresh" aria-label="순위 새로고침">↻</button>
+        </div>
+        <table class="lb__table">
+          <thead><tr><th scope="col">#</th><th scope="col" class="ko">참가자</th><th scope="col" class="num">Score</th></tr></thead>
+          <tbody id="lbBody"><tr><td colspan="3" class="lb__empty">불러오는 중…</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="prize reveal">
+        <p class="prize__kicker mono"><span class="nb"><svg class="award__laurel" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M15.5 46.8Q0.6 30 13.2 10.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.3 42.7Q8.8 37.6 3 40.4Q6.9 45.6 12.3 42.7ZM12.3 42.7Q16.1 39.4 12.8 35.3Q9.1 38.9 12.3 42.7ZM9.2 36.8Q7 31.1 0.9 32.7Q3.4 38.5 9.2 36.8ZM9.2 36.8Q13.5 34.5 11.2 29.9Q6.8 32.5 9.2 36.8ZM7.6 30.7Q7.1 24.8 0.9 24.9Q1.7 31 7.6 30.7ZM7.6 30.7Q12.3 29.7 11.2 24.8Q6.3 26.1 7.6 30.7ZM7.6 24.4Q8.7 18.7 2.8 17.4Q1.9 23.4 7.6 24.4ZM7.6 24.4Q12.4 24.7 12.4 19.8Q7.5 19.7 7.6 24.4ZM9.3 18Q11.6 12.8 6.2 10.4Q4 15.9 9.3 18ZM9.3 18Q13.7 19.4 14.7 14.6Q10 13.4 9.3 18ZM13.2 10.2Q18.3 9.1 17.3 3.8Q12 5.1 13.2 10.2Z" fill="currentColor"/></svg>Best</span> Paper <span class="nb">Award<svg class="award__laurel award__laurel--r" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M15.5 46.8Q0.6 30 13.2 10.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.3 42.7Q8.8 37.6 3 40.4Q6.9 45.6 12.3 42.7ZM12.3 42.7Q16.1 39.4 12.8 35.3Q9.1 38.9 12.3 42.7ZM9.2 36.8Q7 31.1 0.9 32.7Q3.4 38.5 9.2 36.8ZM9.2 36.8Q13.5 34.5 11.2 29.9Q6.8 32.5 9.2 36.8ZM7.6 30.7Q7.1 24.8 0.9 24.9Q1.7 31 7.6 30.7ZM7.6 30.7Q12.3 29.7 11.2 24.8Q6.3 26.1 7.6 30.7ZM7.6 24.4Q8.7 18.7 2.8 17.4Q1.9 23.4 7.6 24.4ZM7.6 24.4Q12.4 24.7 12.4 19.8Q7.5 19.7 7.6 24.4ZM9.3 18Q11.6 12.8 6.2 10.4Q4 15.9 9.3 18ZM9.3 18Q13.7 19.4 14.7 14.6Q10 13.4 9.3 18ZM13.2 10.2Q18.3 9.1 17.3 3.8Q12 5.1 13.2 10.2Z" fill="currentColor"/></svg></span></p>
+        <p class="prize__text" data-w="contest.gamePrize">참석으로 회신해 주신 분 중 1등에게 결혼식 당일 작은 선물을 드려요.</p>
+        <details class="prize__more">
+          <summary>시상 규칙 보기</summary>
+          <ul class="prize__rules">
+            <li data-w="contest.gameCutoffText">12월 18일(금)까지의 기록 기준 1위</li>
+            <li>몇 번이든 도전할 수 있어요 · 가장&nbsp;높은&nbsp;기록 하나만 순위에 올라요</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ CLOSING ============ -->
+  <footer class="closing" id="closing">
+    <div class="closing__media" id="closingMedia"></div>
+    <div class="closing__body">
+      <p class="eyebrow eyebrow--dark"><span class="eyebrow__no">∞</span>Closing Ceremony</p>
+      <h2 class="closing__title">감사합니다</h2>
+      <p class="closing__text" id="closingText">귀한 시간 내어 저희 소식을 끝까지 읽어 주셔서 감사합니다.<br>반가운 얼굴로 뵙기를 기다리겠습니다.</p>
+      <p class="closing__en" lang="en">Thank you for your attention — and your attendance.</p>
+      <p class="closing__sign"><span data-w="groom.first">진헌</span> <span class="heart">♥</span> <span data-w="bride.first">소영</span> 드림</p>
+      <script>window.aiccOrder && aiccOrder(document.currentScript.previousElementSibling)</script>
+      <div class="btn-row">
+        <button class="btn btn--amber" type="button" id="shareBtn">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12.5v6A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5v-6"/></svg>공유하기
+        </button>
+        <button class="btn btn--glass" type="button" id="copyLinkBtn">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3.1-3.1a4.5 4.5 0 0 0-6.4-6.4L11.6 6M14 10a4.5 4.5 0 0 0-6.4 0l-3.1 3.1a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/></svg>링크 복사
+        </button>
+      </div>
+      <p class="colophon mono">AI-CC <span data-w="date.year">2026</span> · Program Chairs <span class="nb"><span data-w="groom.enFirst">Jinheon</span> &amp; <span data-w="bride.enFirst">Soyeong</span></span><br>Made with ♥ and vanilla JS · <span class="nb">no reviewers were harmed</span></p>
+      <script>window.aiccOrder && aiccOrder(document.currentScript.previousElementSibling)</script>
+    </div>
+  </footer>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
+  <div class="lightbox__top">
+    <p class="lightbox__count mono" id="lbxCount">1 / 1</p>
+    <p class="lightbox__sess" id="lbxSess"></p>
+    <button class="lightbox__close" type="button" id="lbxClose" aria-label="닫기">✕</button>
+  </div>
+  <div class="lightbox__stage" id="lbxStage">
+    <div class="lightbox__track" id="lbxTrack"></div>
+  </div>
+  <div class="lightbox__bottom">
+    <p class="lightbox__cap" id="lbxCap"></p>
+    <p class="lightbox__hint" id="lbxHint" aria-hidden="true">‹ 옆으로 밀어서 넘겨 보세요 ›</p>
+  </div>
+  <button class="lightbox__nav lightbox__nav--prev" type="button" id="lbxPrev" aria-label="이전 사진">‹</button>
+  <button class="lightbox__nav lightbox__nav--next" type="button" id="lbxNext" aria-label="다음 사진">›</button>
+</div>
+
+<!-- Game overlay (js/svm-game.js rebuilds the counter, the ten round pills and the pause/skip buttons from SVMCore) -->
+<div class="game" id="game" role="dialog" aria-modal="true" aria-labelledby="gameTitle" hidden>
+  <div class="game__panel" id="gPanel">
+    <div class="game__hud">
+      <button class="game__close" type="button" id="gameClose" aria-label="게임 닫기">✕</button>
+      <p class="game__title" id="gameTitle"><span class="mono">Round</span> <b id="gRound">1</b><span class="mono">/10</span></p>
+      <p class="game__score"><span class="game__plus" id="gPlus" aria-hidden="true"></span><span class="mono">Score</span> <b id="gScore">0</b></p>
+    </div>
+    <div class="game__sub">
+      <div class="game__legend" aria-hidden="true">
+        <span><b class="cls cls--g">♥</b> 신랑측</span>
+        <span><b class="cls cls--b">★</b> 신부측</span>
+      </div>
+      <div class="game__timer" aria-hidden="true"><i id="gTimer"></i></div>
+    </div>
+    <div class="game__body">
+      <p class="game__cap" aria-hidden="true"><b id="gCapT">Human SVM Challenge</b><span id="gCapS">양가 하객 사이로 길을 내 주세요</span></p>
+      <div class="game__stage" id="gStage">
+        <canvas id="gCanvas" aria-label="게임 화면: 하트 하객과 별 하객 사이로 길을 내는 직선을 그어 주세요"></canvas>
+        <div class="game__banner" id="gBanner" aria-hidden="true"></div>
+        <div class="game__pause" id="gPause" hidden>
+          <p>잠시 멈췄어요</p>
+          <button class="btn btn--amber" type="button" id="gResume">계속하기</button>
+        </div>
+      </div>
+      <div class="game__foot">
+        <p class="game__msg" id="gMsg" aria-live="polite">한 번 쭉 그어서 ♥와 ★ 사이로 길을 내 주세요</p>
+        <ol class="game__pills" id="gPills" aria-hidden="true"><li>R1</li><li>R2</li><li>R3</li><li>R4</li><li>R5</li><li>R6</li><li>R7</li><li>R8</li><li>R9</li><li>K</li></ol>
+        <p class="game__keys mono">키보드: ← → 회전 · ↑ ↓ 이동 · Shift 누르고 미세 조정 · Enter 확정</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="shared/config.js"></script>
+<script src="shared/wedding-data.js"></script>
+<script src="js/photos-allowed.js"></script><!-- the photo manifest cut to the couple's allowed photos (generated by photo-manifest.py) -->
+<script src="shared/kit.js"></script>
+<script src="js/cover.js"></script><!-- the cover's phases, intro and large-text fit; app.js starts it on the page's clock -->
+<script src="shared/api.js"></script>
+<script src="js/svm-core.js"></script>
+<script src="js/app.js"></script>
+<script src="js/svm-game.js"></script>
+<script src="js/devmode.js" defer></script>
+</body>
+</html>

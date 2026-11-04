@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 59" width="224" height="118">
+<rect width="112" height="59" fill="#fff"/>
+<rect fill="#111" x="12" y="13" width="1" height="34"/>
+<rect fill="#111" x="14" y="13" width="1" height="34"/>
+<rect fill="#111" x="18" y="13" width="2" height="30"/>
+<rect fill="#111" x="21" y="13" width="1" height="30"/>
+<rect fill="#111" x="24" y="13" width="1" height="30"/>
+<rect fill="#111" x="27" y="13" width="2" height="30"/>
+<rect fill="#111" x="33" y="13" width="1" height="30"/>
+<rect fill="#111" x="35" y="13" width="1" height="30"/>
+<rect fill="#111" x="37" y="13" width="2" height="30"/>
+<rect fill="#111" x="41" y="13" width="2" height="30"/>
+<rect fill="#111" x="45" y="13" width="1" height="30"/>
+<rect fill="#111" x="48" y="13" width="2" height="30"/>
+<rect fill="#111" x="51" y="13" width="2" height="30"/>
+<rect fill="#111" x="55" y="13" width="2" height="30"/>
+<rect fill="#111" x="58" y="13" width="1" height="34"/>
+<rect fill="#111" x="60" y="13" width="1" height="34"/>
+<rect fill="#111" x="62" y="13" width="3" height="30"/>
+<rect fill="#111" x="66" y="13" width="1" height="30"/>
+<rect fill="#111" x="69" y="13" width="2" height="30"/>
+<rect fill="#111" x="73" y="13" width="2" height="30"/>
+<rect fill="#111" x="76" y="13" width="1" height="30"/>
+<rect fill="#111" x="79" y="13" width="1" height="30"/>
+<rect fill="#111" x="83" y="13" width="3" height="30"/>
+<rect fill="#111" x="88" y="13" width="1" height="30"/>
+<rect fill="#111" x="90" y="13" width="3" height="30"/>
+<rect fill="#111" x="95" y="13" width="1" height="30"/>
+<rect fill="#111" x="97" y="13" width="1" height="30"/>
+<rect fill="#111" x="100" y="13" width="1" height="30"/>
+<rect fill="#111" x="104" y="13" width="1" height="34"/>
+<rect fill="#111" x="106" y="13" width="1" height="34"/>
+<text x="4" y="9.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#111" font-size="7.6" letter-spacing=".6">ISSN 2026-1219</text>
+<text x="7" y="51.6" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#111" font-size="8.6" text-anchor="middle">2</text>
+<text x="36" y="51.6" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#111" font-size="8.6" text-anchor="middle" letter-spacing="1.6">026121</text>
+<text x="83" y="51.6" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#111" font-size="8.6" text-anchor="middle" letter-spacing="1.6">918008</text>
+</svg>

@@ -1,0 +1,114 @@
+/* Human SVM v3 — game styles that change or extend css/style.css. Load after style.css. */
+
+/* ------------------------------------------------------------------ 08 challenge section */
+@media (max-width: 340px) { .ch-banner__plot { width: 60px; height: 60px; top: 10px; right: 10px; border-radius: 10px; } }
+
+/* ------------------------------------------------------------------ result card */
+.result__score .mono { font-family: var(--f-sans); font-weight: 750; font-variant-numeric: tabular-nums; letter-spacing: -.035em; font-size: clamp(2.375rem, 12vw, 3.25rem); }
+.result__score small { white-space: nowrap; }
+.result__stats { margin-top: 2px; font-size: .9375rem; line-height: 1.55; color: var(--text-3) !important; }
+.result__stats b { color: var(--ink); font-weight: 700; white-space: nowrap; }
+.result__rounds { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin: 14px 0 4px; }
+.result__rounds li { position: relative; padding: 6px 2px 11px; overflow: hidden; }
+.result__rounds li b { font-size: .9375rem; }
+.result__rounds li b small { font-size: .75em; font-weight: 500; color: var(--text-3); }
+.result__rounds li i { position: absolute; left: 7px; right: 7px; bottom: 5px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.result__rounds li i::after { content: ''; display: block; height: 100%; width: calc(var(--f, 0) * 100%); background: var(--ink); border-radius: inherit; }
+.result__rounds li.is-perfect i { background: rgba(var(--amber-ink-rgb), .18); }
+.result__rounds li.is-perfect i::after { background: var(--amber-ink); }
+.result__rounds li.is-zero b { color: var(--text-3); }
+.result__legend { margin-top: 6px; font-size: .8125rem; color: var(--text-3) !important; }
+@media (max-width: 359px) {
+  .result__rounds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .result__rounds li { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; padding: 7px 10px 11px; }
+}
+
+/* ------------------------------------------------------------------ leaderboard: room for six-digit scores */
+.lb__table th.num, .lb__table td.num { width: calc(4.9rem + 12px); }
+@media (max-width: 340px) { /* Fold cover / SE: a name like "테스트 하객" keeps one line next to "573,168" */
+  .lb { padding-left: 10px; padding-right: 10px; }
+  .lb__table th:first-child { width: 34px; }
+  .lb__table th, .lb__table td { padding-left: 4px; padding-right: 4px; }
+  .lb__table th.num, .lb__table td.num { width: calc(4.4rem + 8px); }
+}
+
+/* ------------------------------------------------------------------ game overlay */
+.game__score b { min-width: 0; }
+.game__stage canvas:focus:not(:focus-visible) { outline: 0; }
+.game__pause { background: rgba(var(--ink-deep-rgb), .97); padding: 18px; }
+.game__pause p { display: grid; gap: 4px; }
+.game__pause-sub { font-size: .9375rem; font-weight: 500; color: var(--on-ink-2); }
+.game__pause-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.game__pause-btns .btn { min-width: 128px; }
+.game__skip {
+  display: block; margin: 4px auto 0; min-height: 44px; padding: 8px 18px; border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, .3); background: transparent; color: var(--on-ink);
+  font: 600 .9375rem/1.2 var(--f-sans); cursor: pointer; touch-action: manipulation;
+}
+.game__skip:hover { border-color: var(--amber); color: #fff; }
+.game__skip[hidden] { display: none; }
+/* one pill per round, with a thin bar for that round's share of its maximum */
+.game__pills { grid-template-columns: repeat(var(--n, 10), minmax(0, 1fr)); gap: 5px; }
+.game__pills li { position: relative; height: 38px; padding-bottom: 6px; font-size: .75rem; overflow: hidden; }
+.game__pills li i { position: absolute; left: 5px; right: 5px; bottom: 5px; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.game__pills li i::after { content: ''; display: block; height: 100%; width: calc(var(--f, 0) * 100%); background: rgba(255, 255, 255, .7); border-radius: inherit; transition: width .5s ease; }
+.game__pills li.is-perfect { background: rgba(var(--amber-rgb), .16); border-color: rgba(var(--amber-rgb), .7); color: #fff; }
+.game__pills li.is-perfect i::after { background: var(--amber); }
+.game[data-round="practice"] .game__pills { opacity: .55; }
+.game__pills .game__pill-r { font: inherit; }
+@media (max-width: 340px) { .game__pills { gap: 3px; } .game__pills .game__pill-r { display: none; } } /* 1 2 3 … K on the narrowest phones */
+@media (max-width: 380px) {
+  /* the "+12,345" pop sits under the score instead of over the round counter */
+  .game__plus { right: 6px; top: 100%; margin-top: 2px; z-index: 1; }
+}
+@media (max-width: 330px) {
+  .game__score .mono { display: none; } /* "Score" label: the champagne number speaks for itself on the narrowest phones */
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .game__pills { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .game__pills li { height: 32px; }
+  .game__skip { margin-top: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game__pills li i::after { transition: none; }
+}
+
+/* ------------------------------------------------------------------ revision 2 · final polish */
+/* The section reads in the order a guest acts: rules → play → (result) → leaderboard → the prize */
+#playBtn { margin-top: 22px; }
+.lb { margin-top: 24px; }
+.prize { margin-top: 18px; }
+.prize__text { font-size: 1.0625rem; }
+.prize__more { margin-top: 10px; border-top: 1px solid rgba(var(--amber-rgb), .3); }
+.prize__more > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; padding: 8px 0 0;
+  list-style: none; cursor: pointer; font-weight: 700; font-size: .9375rem; color: var(--on-ink); -webkit-tap-highlight-color: transparent;
+}
+.prize__more > summary::-webkit-details-marker { display: none; }
+.prize__more > summary::after {
+  content: ''; flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(var(--amber-rgb), .6);
+  background: no-repeat center / 13px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.5 7 9.5l4-4' fill='none' stroke='%23E2CFA4' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  transition: transform .2s ease;
+}
+.prize__more[open] > summary::after { transform: rotate(180deg); }
+.prize__more .prize__rules { margin-top: 10px; }
+.result__keep { margin-top: 10px; }
+
+/* Korean is never set in letter-spaced monospace: the game's captions use the sans face with tabular figures */
+.game__msg small { font-family: var(--f-sans); font-variant-numeric: tabular-nums; font-weight: 500; letter-spacing: 0; }
+.game__keys { font-family: var(--f-sans); }
+
+/* While a banner shows, the caption above the field keeps its room but steps back (the banner says the same) */
+.game.is-banner .game__cap { visibility: hidden; }
+
+/* One field size for everyone: a laptop mouse plays on the same 370 px field as a phone */
+.game__stage { max-width: 370px; margin-left: auto; margin-right: auto; }
+@media (orientation: landscape) and (max-height: 520px) {
+  .game__stage { max-width: min(370px, calc(100vw - 260px)); max-height: 370px; }
+  /* a stable HUD: the score has its own line with room reserved under it for the "+75,823" pop, so neither the pop nor a
+     longer title ("연습" → "ROUND 1/10") or score ever pushes the legend and the timer down */
+  .game__score { flex: 1 0 100%; position: relative; padding-bottom: 30px; }
+  .game__plus { position: absolute; left: 0; right: auto; top: auto; bottom: 2px; margin: 0; }
+}
+/* short lines on the navy band: no lone "돼요." / "성공!" / "주세요!" / "드려요." at the end of a rule */
+.ch-oneliner, .howto p, .prize__text, .prize__rules li { text-wrap: balance; }
