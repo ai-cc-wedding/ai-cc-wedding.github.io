@@ -20,9 +20,9 @@
   var LOCAL = location.protocol === 'file:' ||
     /^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname);
   var query = new URLSearchParams(location.search);
-  var API = String(cfg.apiUrl || '').trim();
-  // ?api=... is honoured only on localhost, so nobody can redirect real guests' data elsewhere.
-  if (LOCAL && query.get('api')) API = query.get('api');
+  // A local preview never reaches the real sheet: on localhost only ?api=... connects (a test server), so no test can
+  // write to it. ?api=... is honoured only on localhost, so nobody can redirect real guests' data elsewhere.
+  var API = LOCAL ? String(query.get('api') || '').trim() : String(cfg.apiUrl || '').trim();
   var MODE = API ? 'live' : 'demo';
   // Sample reviews/scores appear only in local previews (or with ?demo), never for real guests.
   var SAMPLES = MODE === 'demo' && (LOCAL || query.has('demo'));
